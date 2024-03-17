@@ -7,17 +7,13 @@
 
 import UIKit
 
+
+
 final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let photoDate: Date = .init()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    }
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -25,6 +21,35 @@ final class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Проверка идентификатора сегвея
+        if segue.identifier == "ShowSingleImage" {
+            guard
+                // Преобразуем тип для свойства segue.destination (у него тип UIViewController) к тому, который мы ожидаем (выставлен в Storyboard)
+                let viewController = segue.destination as? SingleImageViewController,
+                // Преобразуем тип для аргумента sender (ожидаем, что там будет indexPath)
+                let indexPath = sender as? IndexPath
+            else {
+                // Если окажется, что мы выбрали неправильный сегвей или не настроили его нужным образом, выполним assertionFailure
+                assertionFailure("Invalid segue destination")
+                return
+            }
+            // Получаем по индексу название картинки и саму картинку из ресурсов приложения
+            let image = UIImage(named: photosName[indexPath.row])
+            // Передаём эту картинку в imageView внутри SingleImageViewController
+            viewController.imageView.image = image
+        } else {
+            // Если это неизвестный сегвей, есть вероятность, что он был определён суперклассом (то есть родительским классом). В таком случае мы должны передать ему управление
+            super.prepare(for: segue, sender: sender)
+        }
+    }
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -92,5 +117,12 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return cellHeight
+    }
+}
+
+extension ImagesListViewController: UITabBarDelegate {
+    // Настройка перехода через сегвей с конкретным идентификатором
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
     }
 }
