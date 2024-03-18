@@ -43,6 +43,9 @@ final class ImagesListViewController: UIViewController {
             }
             // Получаем по индексу название картинки и саму картинку из ресурсов приложения
             let image = UIImage(named: photosName[indexPath.row])
+            
+            _ = viewController.view // CRASH FIXED !?
+            
             // Передаём эту картинку в imageView внутри SingleImageViewController
             viewController.imageView.image = image
         } else {
@@ -101,7 +104,10 @@ extension ImagesListViewController {
 
 extension ImagesListViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
+    // Настройка перехода через сегвей с конкретным идентификатором
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
+    }
     
     // Метод настройки размера ячейки в записимости от размеров image
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -117,12 +123,5 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return cellHeight
-    }
-}
-
-extension ImagesListViewController: UITabBarDelegate {
-    // Настройка перехода через сегвей с конкретным идентификатором
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
     }
 }
