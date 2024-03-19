@@ -15,6 +15,8 @@ final class ImagesListViewController: UIViewController {
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let photoDate: Date = .init()
     
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -30,24 +32,24 @@ final class ImagesListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Проверка идентификатора сегвея
-        if segue.identifier == "ShowSingleImage" {
-            guard
-                // Преобразуем тип для свойства segue.destination (у него тип UIViewController) к тому, который мы ожидаем (выставлен в Storyboard)
-                let viewController = segue.destination as? SingleImageViewController,
-                // Преобразуем тип для аргумента sender (ожидаем, что там будет indexPath)
-                let indexPath = sender as? IndexPath
-            else {
-                // Если окажется, что мы выбрали неправильный сегвей или не настроили его нужным образом, выполним assertionFailure
-                assertionFailure("Invalid segue destination")
-                return
-            }
+        if segue.identifier == showSingleImageSegueIdentifier {
+            //            guard
+            // Преобразуем тип для свойства segue.destination (у него тип UIViewController) к тому, который мы ожидаем (выставлен в Storyboard)
+            let viewController = segue.destination as! SingleImageViewController
+            // Преобразуем тип для аргумента sender (ожидаем, что там будет indexPath)
+            let indexPath = sender as! IndexPath
+            //            else {
+            //                // Если окажется, что мы выбрали неправильный сегвей или не настроили его нужным образом, выполним assertionFailure
+            //                assertionFailure("Invalid segue destination")
+            //                return
+            //            }
             // Получаем по индексу название картинки и саму картинку из ресурсов приложения
             let image = UIImage(named: photosName[indexPath.row])
             
             //_ = viewController.view // CRASH FIXED !?
             
             // Передаём эту картинку в imageView внутри SingleImageViewController
-            viewController.imageView.image = image
+            viewController.imageView = image
         } else {
             // Если это неизвестный сегвей, есть вероятность, что он был определён суперклассом (то есть родительским классом). В таком случае мы должны передать ему управление
             super.prepare(for: segue, sender: sender)
@@ -106,7 +108,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     // Настройка перехода через сегвей с конкретным идентификатором
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
     
     // Метод настройки размера ячейки в записимости от размеров image
