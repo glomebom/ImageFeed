@@ -16,11 +16,16 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
-    // Приватный аутлет для исключения обращения к imageView напрямую
+    // Приватный аутлет для исключения обращения напрямую
     @IBOutlet private var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = image
     }
+    
+    @IBAction func didTapBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
