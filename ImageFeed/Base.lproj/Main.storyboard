@@ -224,18 +224,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyW-nI-wZy">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fyW-nI-wZy">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="eLY-Ar-1TE">
-                                        <rect key="frame" x="0.0" y="0.0" width="1600" height="1059"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="eLY-Ar-1TE" firstAttribute="leading" secondItem="fyW-nI-wZy" secondAttribute="leading" id="5x4-k4-uII"/>
-                                    <constraint firstAttribute="trailing" secondItem="eLY-Ar-1TE" secondAttribute="trailing" id="Yw1-Ue-Hka"/>
-                                    <constraint firstItem="eLY-Ar-1TE" firstAttribute="top" secondItem="fyW-nI-wZy" secondAttribute="top" id="gfY-wy-2hX"/>
-                                    <constraint firstAttribute="bottom" secondItem="eLY-Ar-1TE" secondAttribute="bottom" id="tX3-rZ-Vum"/>
+                                    <constraint firstItem="eLY-Ar-1TE" firstAttribute="leading" secondItem="N2j-C4-4pi" secondAttribute="leading" id="5x4-k4-uII"/>
+                                    <constraint firstItem="N2j-C4-4pi" firstAttribute="trailing" secondItem="eLY-Ar-1TE" secondAttribute="trailing" id="Yw1-Ue-Hka"/>
+                                    <constraint firstItem="eLY-Ar-1TE" firstAttribute="top" secondItem="N2j-C4-4pi" secondAttribute="top" id="gfY-wy-2hX"/>
+                                    <constraint firstItem="N2j-C4-4pi" firstAttribute="bottom" secondItem="eLY-Ar-1TE" secondAttribute="bottom" id="tX3-rZ-Vum"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Zai-Gz-ADU"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="N2j-C4-4pi"/>
