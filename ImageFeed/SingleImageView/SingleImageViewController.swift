@@ -43,6 +43,16 @@ final class SingleImageViewController: UIViewController {
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
+    
+
+    @IBAction func didTapShareButton(_ sender: UIButton) {
+        guard let image = image else { return }
+        let share = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        present(share, animated: true, completion: nil)
+    }
 }
 
 // Реализация метода выбора view к которой будет применяться zoom
