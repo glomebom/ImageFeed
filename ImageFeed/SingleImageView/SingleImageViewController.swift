@@ -15,6 +15,7 @@ final class SingleImageViewController: UIViewController {
             imageView.image = image
             
             guard let image = imageView.image else { return }
+
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
@@ -27,12 +28,11 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         
         imageView.image = image
-        
         guard let image = imageView.image else { return }
-        rescaleAndCenterImageInScrollView(image: image)
-        
         // Размеры view под размеры изображения
         imageView.frame.size = image.size
+        
+        rescaleAndCenterImageInScrollView(image: image)
         
         // Параметры zoom
         scrollView.minimumZoomScale = 0.1
