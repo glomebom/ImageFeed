@@ -14,7 +14,6 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var loginNameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var logoutButton: UIButton!
     
     override func viewDidLoad() {
@@ -38,13 +37,12 @@ final class ProfileViewController: UIViewController {
         exitButton.setImage(exitImage, for: .normal)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)
-
+        
         // Констрейнты для кнопки выхода
         exitButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         exitButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24).isActive = true
-        
         
         // Создание лейбла с именем
         let nameLabel = UILabel()
@@ -57,7 +55,6 @@ final class ProfileViewController: UIViewController {
         // Констрейнты для лейбла с именем
         nameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
-        
         
         //Создание лейбла с ником
         let nickNameLabel = UILabel()

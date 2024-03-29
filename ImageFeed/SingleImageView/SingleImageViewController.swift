@@ -15,7 +15,7 @@ final class SingleImageViewController: UIViewController {
             imageView.image = image
             
             guard let image = imageView.image else { return }
-
+            
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
@@ -44,7 +44,7 @@ final class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-
+    
     @IBAction func didTapShareButton(_ sender: UIButton) {
         guard let image = image else { return }
         let share = UIActivityViewController(
