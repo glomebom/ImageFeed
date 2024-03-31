@@ -47,7 +47,7 @@ final class ProfileViewController: UIViewController {
         // Создание лейбла с именем
         let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
-        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight(rawValue: 700.00))
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
         nameLabel.textColor = .white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)

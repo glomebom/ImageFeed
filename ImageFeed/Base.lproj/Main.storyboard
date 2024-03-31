@@ -207,12 +207,14 @@
                         <constraints>
                             <constraint firstItem="Bwv-F0-LXw" firstAttribute="trailing" secondItem="fyW-nI-wZy" secondAttribute="trailing" id="00t-lM-Zvk"/>
                             <constraint firstItem="fyW-nI-wZy" firstAttribute="leading" secondItem="Bwv-F0-LXw" secondAttribute="leading" id="G4n-rP-g1G"/>
+                            <constraint firstItem="Bwv-F0-LXw" firstAttribute="bottom" secondItem="fyW-nI-wZy" secondAttribute="bottom" id="PXU-dB-ZyA"/>
                             <constraint firstItem="mGu-y9-diy" firstAttribute="top" secondItem="Bwv-F0-LXw" secondAttribute="top" constant="8" id="QAq-tq-Ca1"/>
                             <constraint firstItem="Om8-vZ-yMw" firstAttribute="centerX" secondItem="Bwv-F0-LXw" secondAttribute="centerX" id="Qqp-qR-P30"/>
                             <constraint firstItem="Bwv-F0-LXw" firstAttribute="bottom" secondItem="Om8-vZ-yMw" secondAttribute="bottom" constant="35" id="W0C-ev-kGy"/>
                             <constraint firstItem="mGu-y9-diy" firstAttribute="leading" secondItem="Bwv-F0-LXw" secondAttribute="leading" constant="8" id="XVT-ci-Ldo"/>
                             <constraint firstAttribute="bottom" secondItem="fyW-nI-wZy" secondAttribute="bottom" id="Xju-xP-nPk"/>
                             <constraint firstItem="fyW-nI-wZy" firstAttribute="top" secondItem="K4M-D4-lCb" secondAttribute="top" id="YTh-xI-zmz"/>
+                            <constraint firstItem="fyW-nI-wZy" firstAttribute="top" secondItem="Bwv-F0-LXw" secondAttribute="top" id="awZ-XG-Dli"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SjQ-ac-RXq"/>
