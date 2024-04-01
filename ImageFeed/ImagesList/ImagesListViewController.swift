@@ -7,16 +7,37 @@
 
 import UIKit
 
+
+
 final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let photoDate: Date = .init()
     
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Проверка идентификатора сегвея
+        if segue.identifier == showSingleImageSegueIdentifier {
+            // Преобразуем тип для свойства segue.destination (у него тип UIViewController) к тому, который мы ожидаем (выставлен в Storyboard)
+            let viewController = segue.destination as! SingleImageViewController
+            // Преобразуем тип для аргумента sender (ожидаем, что там будет indexPath)
+            let indexPath = sender as! IndexPath
+            // Получаем по индексу название картинки и саму картинку из ресурсов приложения
+            let image = UIImage(named: photosName[indexPath.row])
+            // Передаём эту картинку в imageView внутри SingleImageViewController
+            viewController.image = image
+        } else {
+            // Если это неизвестный сегвей, есть вероятность, что он был определён суперклассом (то есть родительским классом). В таком случае мы должны передать ему управление
+            super.prepare(for: segue, sender: sender)
+        }
     }
     
     private lazy var dateFormatter: DateFormatter = {
@@ -70,13 +91,15 @@ extension ImagesListViewController {
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "active") : UIImage(named: "not_active")
         cell.likeButton.setImage(likeImage, for: .normal)
-        
     }
 }
 
 extension ImagesListViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
+    // Настройка перехода через сегвей с конкретным идентификатором
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+    }
     
     // Метод настройки размера ячейки в записимости от размеров image
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
