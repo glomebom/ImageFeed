@@ -16,6 +16,7 @@
 		F77564E12B90F91C00618789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F77564E02B90F91C00618789 /* Assets.xcassets */; };
 		F77564E42B90F91C00618789 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F77564E22B90F91C00618789 /* LaunchScreen.storyboard */; };
 		F776AAED2B988B6900466BBE /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F776AAEC2B988B6900466BBE /* ImagesListCell.swift */; };
+		F782DD922BBB4A48003B0510 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782DD912BBB4A48003B0510 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		F77564E32B90F91C00618789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F77564E52B90F91C00618789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F776AAEC2B988B6900466BBE /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		F782DD912BBB4A48003B0510 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				F77564E02B90F91C00618789 /* Assets.xcassets */,
 				F77564E22B90F91C00618789 /* LaunchScreen.storyboard */,
 				F77564E52B90F91C00618789 /* Info.plist */,
+				F782DD912BBB4A48003B0510 /* Constants.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				F776AAED2B988B6900466BBE /* ImagesListCell.swift in Sources */,
 				F73F1DA52BA4A7AC00CCD1D8 /* ProfileViewController.swift in Sources */,
 				F77564D82B90F91A00618789 /* AppDelegate.swift in Sources */,
+				F782DD922BBB4A48003B0510 /* Constants.swift in Sources */,
 				F73F1DA82BA6E19400CCD1D8 /* SingleImageViewController.swift in Sources */,
 				F77564DA2B90F91A00618789 /* SceneDelegate.swift in Sources */,
 			);
