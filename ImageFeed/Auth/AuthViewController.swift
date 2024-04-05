@@ -31,7 +31,7 @@ final class AuthViewController: UIViewController {
     
     @objc
     private func didTapLogonButton() {
-        performSegue(withIdentifier: "ShowWebView", sender: Any?.self)
+        performSegue(withIdentifier: ShowWebViewSegueIdentifier, sender: Any?.self)
     }
 }
 
