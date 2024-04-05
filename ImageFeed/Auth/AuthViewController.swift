@@ -10,6 +10,7 @@ import UIKit
 
 final class AuthViewController: UIViewController {
     
+    private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let buttonView = UIButton()
     
     override func viewDidLoad() {
@@ -17,9 +18,30 @@ final class AuthViewController: UIViewController {
         configureBackButton()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowWebViewSegueIdentifier {
+            guard
+                let webViewViewController = segue.destination as? WebViewViewController
+            else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+    
     @objc
     private func didTapLogonButton() {
         performSegue(withIdentifier: "ShowWebView", sender: Any?.self)
+    }
+}
+
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        //TODO: process code
+    }
+
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+        dismiss(animated: true)
     }
 }
 
@@ -45,7 +67,7 @@ extension AuthViewController {
     }
     
     private func setupLogonButton() {
-        buttonView.addTarget(self, action: #selector(self.didTapLogonButton), for: .touchUpInside)
+//        buttonView.addTarget(self, action: #selector(self.didTapLogonButton), for: .touchUpInside)
         buttonView.setTitle("Войти", for: .normal)
         buttonView.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         buttonView.setTitleColor(.ypBlack, for: .normal)
