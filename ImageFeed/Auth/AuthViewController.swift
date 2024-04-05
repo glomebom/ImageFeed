@@ -25,12 +25,14 @@ final class AuthViewController: UIViewController {
             else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
             webViewViewController.delegate = self
         } else {
+            print("super.prepare")
             super.prepare(for: segue, sender: sender)
         }
     }
     
     @objc
     private func didTapLogonButton() {
+        print("performSegue")
         performSegue(withIdentifier: ShowWebViewSegueIdentifier, sender: Any?.self)
     }
 }
@@ -67,7 +69,7 @@ extension AuthViewController {
     }
     
     private func setupLogonButton() {
-//        buttonView.addTarget(self, action: #selector(self.didTapLogonButton), for: .touchUpInside)
+        buttonView.addTarget(self, action: #selector(self.didTapLogonButton), for: .touchUpInside)
         buttonView.setTitle("Войти", for: .normal)
         buttonView.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         buttonView.setTitleColor(.ypBlack, for: .normal)
