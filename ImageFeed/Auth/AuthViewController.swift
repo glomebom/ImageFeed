@@ -13,6 +13,8 @@ final class AuthViewController: UIViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let buttonView = UIButton()
     
+    private let oauth2Service = OAuth2Service.shared
+    
     override func viewDidLoad() {
         setupView()
         configureBackButton()
