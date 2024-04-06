@@ -25,14 +25,12 @@ final class AuthViewController: UIViewController {
             else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
             webViewViewController.delegate = self
         } else {
-            print("super.prepare")
             super.prepare(for: segue, sender: sender)
         }
     }
     
     @objc
     private func didTapLogonButton() {
-        print("performSegue")
         performSegue(withIdentifier: ShowWebViewSegueIdentifier, sender: Any?.self)
     }
 }
