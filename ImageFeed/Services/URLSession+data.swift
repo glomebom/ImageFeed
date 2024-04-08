@@ -2,7 +2,7 @@
 //  URLSession+data.swift
 //  ImageFeed
 //
-//  Created by Gleb on 06.04.2024.
+//  Created by Gleb on 08.04.2024.
 //
 
 import Foundation
@@ -23,7 +23,7 @@ extension URLSession {
                 completion(result)
             }
         }
-
+        
         let task = dataTask(with: request, completionHandler: { data, response, error in
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200 ..< 300 ~= statusCode {
@@ -37,6 +37,7 @@ extension URLSession {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError)) // 6
             }
         })
-
+        
         return task
     }
+}
