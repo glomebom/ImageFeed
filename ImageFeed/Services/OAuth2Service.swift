@@ -12,21 +12,23 @@ final class OAuth2Service {
     //private init()
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
-        let baseURL = URL(string: "https://unsplash.com")!
-        if let url = URL(
+        guard let baseURL = URL(string: "https://unsplash.com") else {
+            preconditionFailure("Unable to construct baseUrl")
+        }
+        guard let url = URL(
             string: "/oauth/token"
             + "?client_id=\(Constants.accessKey)"         // Используем знак ?, чтобы начать перечисление параметров запроса
             + "&&client_secret=\(Constants.secretKey)"    // Используем &&, чтобы добавить дополнительные параметры
             + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
-            + "&&grant_type="authorization_code",
+            + "&&grant_type=authorization_code",
             relativeTo: baseURL                           // Опираемся на основной или базовый URL, которые содержат схему и имя хоста
-        ) {
-            if var request = URLRequest(url: url) {
-                request.httpMethod = "POST"
-                return request
-            }
+        ) else {
+            preconditionFailure("Unable to construct url")
         }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        return request as URLRequest
     }
     
     func fetchOAuthToken(for code: String, handler: @escaping (Result<Data,Error>) -> Void) {
@@ -41,7 +43,7 @@ final class OAuth2Service {
             
             // Проверяем, что нам пришёл успешный код ответа
             if let response = response as? HTTPURLResponse, response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkError.httpStatusCode))
+                handler(.failure(NetworkError.urlSessionError))
                 return
             }
             
