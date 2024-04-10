@@ -26,7 +26,9 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
                   let token = try? JSONDecoder().decode(String.self, from: data) else {
                 return ""
             }
-            
+            //
+            print("\(token)")
+            //
             return token
         }
         set {

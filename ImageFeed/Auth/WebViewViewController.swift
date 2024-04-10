@@ -92,6 +92,7 @@ extension WebViewViewController {
         }
         
         let request = URLRequest(url: url)
+        print("DEBUG \(request)")
         webView.load(request)
     }
 }
@@ -104,6 +105,7 @@ extension WebViewViewController: WKNavigationDelegate {
     ) {
         if let code = code(from: navigationAction) {
             // TO DO:
+            print("DEBUG \(code)")
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
@@ -119,6 +121,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" })
         {
+            print("DEBUG \(String(describing: codeItem.value))")
             return codeItem.value
         } else {
             return nil

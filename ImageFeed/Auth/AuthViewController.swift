@@ -15,6 +15,8 @@ final class AuthViewController: UIViewController {
     
     private let oauth2Service = OAuth2Service.shared
     
+    var oAuth2TokenStorage = OAuth2TokenStorage()
+    
     override func viewDidLoad() {
         setupView()
         configureBackButton()
@@ -38,20 +40,24 @@ final class AuthViewController: UIViewController {
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
+    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         //TODO: process code
-        OAuth2Service().fetchOAuthToken(for: code) { result in
+        OAuth2Service().fetchOAuthToken(for: code) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 do {
                     let oAuthTokenResponseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    handler(.success(oAuthTokenResponseBody))
+                    oAuth2TokenStorage.token = oAuthTokenResponseBody.access_token
+                    print("\(oAuth2TokenStorage.token)")
                 } catch {
-                    handler(.failure(error))
+                    //handler(.failure(error))
                 }
-            case .failure(let error):
-                handler(.failure(error))
+            case .failure:
+                print("Ошибка")
             }
+            //
         }
     }
     
