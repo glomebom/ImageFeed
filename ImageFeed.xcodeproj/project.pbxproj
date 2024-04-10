@@ -21,6 +21,7 @@
 		F77564E12B90F91C00618789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F77564E02B90F91C00618789 /* Assets.xcassets */; };
 		F77564E42B90F91C00618789 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F77564E22B90F91C00618789 /* LaunchScreen.storyboard */; };
 		F776AAED2B988B6900466BBE /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F776AAEC2B988B6900466BBE /* ImagesListCell.swift */; };
+		F77744FB2BC5D45000721F5F /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77744FA2BC5D45000721F5F /* OAuth2TokenStorage.swift */; };
 		F782DD922BBB4A48003B0510 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782DD912BBB4A48003B0510 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		F77564E32B90F91C00618789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F77564E52B90F91C00618789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F776AAEC2B988B6900466BBE /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		F77744FA2BC5D45000721F5F /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		F782DD912BBB4A48003B0510 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				F76C9D732BC469E200ADF650 /* OAuthTokenResponseBody.swift */,
+				F77744FA2BC5D45000721F5F /* OAuth2TokenStorage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				F76C9D712BC4649C00ADF650 /* URLSession+data.swift in Sources */,
 				F76BDE822BBD61BD0032DA78 /* WebViewViewController.swift in Sources */,
 				F76A5B1C2BC1666500DD3FC0 /* OAuth2Service.swift in Sources */,
+				F77744FB2BC5D45000721F5F /* OAuth2TokenStorage.swift in Sources */,
 				F77564DA2B90F91A00618789 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

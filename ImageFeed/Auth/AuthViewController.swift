@@ -40,8 +40,21 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         //TODO: process code
+        OAuth2Service().fetchOAuthToken(for: code) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let oAuthTokenResponseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                    handler(.success(oAuthTokenResponseBody))
+                } catch {
+                    handler(.failure(error))
+                }
+            case .failure(let error):
+                handler(.failure(error))
+            }
+        }
     }
-
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
