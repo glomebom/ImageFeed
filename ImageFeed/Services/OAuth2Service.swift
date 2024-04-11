@@ -10,9 +10,9 @@ import Foundation
 final class OAuth2Service {
     static let shared = OAuth2Service()
     
-    init() {}
+    private init() {}
     
-    func makeOAuthTokenRequest(code: String) -> URLRequest {
+    private func makeOAuthTokenRequest(code: String) -> URLRequest {
         guard let baseURL = URL(string: "https://unsplash.com") else {
             preconditionFailure("Unable to construct baseUrl")
         }
@@ -29,28 +29,27 @@ final class OAuth2Service {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        return request as URLRequest
+        return request
     }
     
-    func fetchOAuthToken(for code: String, handler: @escaping (Result<Data,Error>) -> Void) {
-        
+    func fetchOAuthToken(for code: String, completion: @escaping (Result<String,Error>) -> Void) {
         let requestWithCode = makeOAuthTokenRequest(code: code)
         
-        let task = URLSession.shared.dataTask(with: requestWithCode){ data, response, error in
-            if let error = error {
-                handler(.failure(error))
-                return
+        let task = URLSession.shared.data(for: requestWithCode){ result in
+            switch result {
+            case .success(let data):
+                do {
+                    let oAuthToken = try JSONDecoder().decode(OAuthTokenResponseBody.self, from:data)
+                    guard let accessToken = oAuthToken.access_token else {
+                        fatalError("Can`t decode token!")
+                    }
+                    completion(.success(accessToken))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
             }
-            
-            // Проверяем, что нам пришёл успешный код ответа
-            if let response = response as? HTTPURLResponse, response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkError.urlSessionError))
-                return
-            }
-            
-            // Возвращаем данные
-            guard let data = data else { return }
-            handler(.success(data))
         }
         
         task.resume()

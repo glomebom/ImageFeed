@@ -13,9 +13,8 @@ final class AuthViewController: UIViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let buttonView = UIButton()
     
-    private let oauth2Service = OAuth2Service.shared
-    
-    var oAuth2TokenStorage = OAuth2TokenStorage()
+    private let oAuth2Service = OAuth2Service.shared
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
     
     override func viewDidLoad() {
         setupView()
@@ -43,19 +42,17 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         //TODO: process code
-        OAuth2Service().fetchOAuthToken(for: code) { [weak self] result in
+        navigationController?.popViewController(animated: true)
+        
+        oAuth2Service.fetchOAuthToken(for: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let data):
-                do {
-                    let oAuthTokenResponseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    oAuth2TokenStorage.token = oAuthTokenResponseBody.access_token
-                    print("\(oAuth2TokenStorage.token)")
-                } catch {
-                    //handler(.failure(error))
-                }
-            case .failure:
-                print("Ошибка")
+            case .success(let accessToken):
+                print("DEBUG \(accessToken)")
+                self.oAuth2TokenStorage.token = accessToken
+            case .failure(let error):
+                print(error)
+                break
             }
         }
     }
