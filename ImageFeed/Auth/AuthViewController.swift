@@ -57,7 +57,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .failure:
                 print("Ошибка")
             }
-            //
         }
     }
     
