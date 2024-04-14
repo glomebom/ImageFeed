@@ -21,20 +21,11 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
     private let userDefaults = UserDefaults.standard
     
     var token: String? {
-        get {
-            guard let data = userDefaults.data(forKey: Keys.token.rawValue),
-                  let token = try? JSONDecoder().decode(String.self, from: data) else {
-                return ""
+            get {
+                return UserDefaults.standard.string(forKey: Keys.token.rawValue)
             }
-            return token
-        }
-        set {
-            guard let data = try? JSONEncoder().encode(newValue) else {
-                print("Невозможно сохранить Bearer Token")
-                return
+            set {
+                UserDefaults.standard.set(newValue, forKey: Keys.token.rawValue)
             }
-            
-            userDefaults.set(data, forKey: Keys.token.rawValue)
-        }
     }
 }

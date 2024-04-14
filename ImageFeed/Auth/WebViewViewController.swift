@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 import WebKit
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-}
-
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
@@ -26,7 +22,6 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         webView.navigationDelegate = self
-        // 1
         loadAuthView()
     }
     
@@ -69,7 +64,6 @@ final class WebViewViewController: UIViewController {
 
 extension WebViewViewController {
     private func loadAuthView() {
-        // 2
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("Ошибка unsplashAuthorizeURLString")
             return
@@ -99,7 +93,6 @@ extension WebViewViewController: WKNavigationDelegate {
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = code(from: navigationAction) {
-            // 3
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {

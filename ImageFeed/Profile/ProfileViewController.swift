@@ -21,6 +21,7 @@ final class ProfileViewController: UIViewController {
     }
     
     @IBAction func didTapLogoutButton() {
+        // TODO: реализовать выход из профиля
     }
 }
 
@@ -34,7 +35,7 @@ extension ProfileViewController {
         descriptionLabelConfig()
     }
     
-    private func  profileImageConfig() {
+    private func profileImageConfig() {
         // Создание фото профиля
         imageView.image = UIImage(named: "Photo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +50,7 @@ extension ProfileViewController {
         ])
     }
     
-    private func  exitButtonConfig() {
+    private func exitButtonConfig() {
         // Создание кнопки выхода
         let exitImage = UIImage(named: "exit")
         exitButton.setImage(exitImage, for: .normal)
@@ -65,7 +66,7 @@ extension ProfileViewController {
         ])
     }
     
-    private func  nameLabelConfig() {
+    private func nameLabelConfig() {
         // Создание лейбла с именем
         nameLabel.text = "Екатерина Новикова"
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
@@ -80,7 +81,7 @@ extension ProfileViewController {
         ])
     }
     
-    private func  nickNameLabelConfig() {
+    private func nickNameLabelConfig() {
         //Создание лейбла с ником
         nickNameLabel.text = "@ekaterina_nov"
         nickNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
@@ -95,7 +96,7 @@ extension ProfileViewController {
         ])
     }
     
-    private func  descriptionLabelConfig() {
+    private func descriptionLabelConfig() {
         // Создание лейбла с описанием
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)

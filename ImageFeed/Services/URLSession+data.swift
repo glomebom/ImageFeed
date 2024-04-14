@@ -30,11 +30,17 @@ extension URLSession {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
+                    print("Error: \(statusCode)")
+                    return
                 }
             } else if let error = error {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+                print("Error: \(error)")
+                return
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+                print("Error: urlSessionError")
+                return
             }
         })
         

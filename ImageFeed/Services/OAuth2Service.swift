@@ -14,7 +14,7 @@ final class OAuth2Service {
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest {
         guard let baseURL = URL(string: "https://unsplash.com") else {
-            preconditionFailure("Unable to construct baseUrl")
+            preconditionFailure("Error: unable to construct baseUrl")
         }
         guard let url = URL(
             string: "/oauth/token"
@@ -25,7 +25,7 @@ final class OAuth2Service {
             + "&&grant_type=authorization_code",
             relativeTo: baseURL
         ) else {
-            preconditionFailure("Unable to construct url")
+            preconditionFailure("Error: unable to construct url")
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -40,15 +40,17 @@ final class OAuth2Service {
             case .success(let data):
                 do {
                     let oAuthToken = try JSONDecoder().decode(OAuthTokenResponseBody.self, from:data)
-                    guard let accessToken = oAuthToken.access_token else {
-                        fatalError("Can`t decode token!")
+                    guard let accessToken = oAuthToken.accessToken else {
+                        fatalError("Error: can`t decode token!")
                     }
                     completion(.success(accessToken))
                 } catch {
                     completion(.failure(error))
+                    print("Error: error of requesting: \(error)")
                 }
             case .failure(let error):
                 completion(.failure(error))
+                print("Error: error of requesting: \(error)")
             }
         }
         

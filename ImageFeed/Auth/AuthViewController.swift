@@ -17,7 +17,7 @@ final class AuthViewController: UIViewController {
     
     weak var delegate: AuthViewControllerDelegate?
     
-    private let ShowWebViewSegueIdentifier = "ShowWebView"
+    private let showWebViewSegueIdentifier = "ShowWebView"
     private let buttonView = UIButton()
     
     override func viewDidLoad() {
@@ -26,10 +26,10 @@ final class AuthViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowWebViewSegueIdentifier {
+        if segue.identifier == showWebViewSegueIdentifier {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            else { fatalError("Failed to prepare for \(showWebViewSegueIdentifier)") }
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
@@ -38,7 +38,7 @@ final class AuthViewController: UIViewController {
     
     @objc
     private func didTapLogonButton() {
-        performSegue(withIdentifier: ShowWebViewSegueIdentifier, sender: Any?.self)
+        performSegue(withIdentifier: showWebViewSegueIdentifier, sender: Any?.self)
     }
 }
 
@@ -99,6 +99,6 @@ extension AuthViewController {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YPBlack") // 4
+        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YPBlack")
     }
 }
