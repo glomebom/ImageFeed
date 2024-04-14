@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol OAuth2TokenStorageProtocol {
-    var token: String { get set }
+    var token: String? { get set }
 }
 
 final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
@@ -19,8 +19,8 @@ final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
     }
     
     private let userDefaults = UserDefaults.standard
-       
-    var token: String {
+    
+    var token: String? {
         get {
             guard let data = userDefaults.data(forKey: Keys.token.rawValue),
                   let token = try? JSONDecoder().decode(String.self, from: data) else {

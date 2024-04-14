@@ -8,13 +8,17 @@
 import Foundation
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+    func didAuthenticate(_ vc: AuthViewController)
+}
+
 final class AuthViewController: UIViewController {
+    
+    weak var delegate: AuthViewControllerDelegate?
     
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let buttonView = UIButton()
-    
-    private let oAuth2Service = OAuth2Service.shared
-    private let oAuth2TokenStorage = OAuth2TokenStorage()
     
     override func viewDidLoad() {
         setupView()
@@ -41,20 +45,8 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        //TODO: process code
-        navigationController?.popViewController(animated: true)
-        
-        oAuth2Service.fetchOAuthToken(for: code) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let accessToken):
-                print("DEBUG \(accessToken)")
-                self.oAuth2TokenStorage.token = accessToken
-            case .failure(let error):
-                print(error)
-                break
-            }
-        }
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
+        delegate?.didAuthenticate(self)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
@@ -104,9 +96,9 @@ extension AuthViewController {
     }
     
     private func configureBackButton() {
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button") // 1
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button") // 2
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil) // 3
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YPBlack") // 4
     }
 }

@@ -18,12 +18,12 @@ final class OAuth2Service {
         }
         guard let url = URL(
             string: "/oauth/token"
-            + "?client_id=\(Constants.accessKey)"         // Используем знак ?, чтобы начать перечисление параметров запроса
-            + "&&client_secret=\(Constants.secretKey)"    // Используем &&, чтобы добавить дополнительные параметры
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
             + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
-            relativeTo: baseURL                           // Опираемся на основной или базовый URL, которые содержат схему и имя хоста
+            relativeTo: baseURL
         ) else {
             preconditionFailure("Unable to construct url")
         }
@@ -55,9 +55,3 @@ final class OAuth2Service {
         task.resume()
     }
 }
-
-//200 — запрашиваемое действие выполнено;
-//401 — для выполнения действия надо выполнить авторизацию (получить разрешение);
-//404 — ресурс не найден либо временно недоступен (стоит повторить запрос через какое-то время);
-//500 — при попытке выполнения запроса произошла ошибка сервера.
-

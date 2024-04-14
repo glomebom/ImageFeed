@@ -24,13 +24,10 @@ final class WebViewViewController: UIViewController {
     
     weak var delegate: WebViewViewControllerDelegate?
     
-    
     override func viewDidLoad() {
         webView.navigationDelegate = self
-        
         // 1
         loadAuthView()
-        
     }
     
     @IBAction private func didTapBackButton(_ sender: Any?) {
@@ -39,19 +36,16 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Подписываем наблюдателя
         webView.addObserver(
             self,
             forKeyPath: #keyPath(WKWebView.estimatedProgress),
             options: .new,
             context: nil)
-        // Обновляем прогрессбар
         updateProgress()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Отписываем наблюдателя
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
     }
     
@@ -94,7 +88,6 @@ extension WebViewViewController {
         }
         
         let request = URLRequest(url: url)
-        print("DEBUG \(request)")
         webView.load(request)
     }
 }
@@ -106,7 +99,6 @@ extension WebViewViewController: WKNavigationDelegate {
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         if let code = code(from: navigationAction) {
-            // TO DO:
             // 3
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
