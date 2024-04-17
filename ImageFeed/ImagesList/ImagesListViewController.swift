@@ -27,9 +27,9 @@ final class ImagesListViewController: UIViewController {
         // Проверка идентификатора сегвея
         if segue.identifier == showSingleImageSegueIdentifier {
             // Преобразуем тип для свойства segue.destination (у него тип UIViewController) к тому, который мы ожидаем (выставлен в Storyboard)
-            let viewController = segue.destination as! SingleImageViewController
+            guard let viewController = segue.destination as? SingleImageViewController else { return }
             // Преобразуем тип для аргумента sender (ожидаем, что там будет indexPath)
-            let indexPath = sender as! IndexPath
+            guard let indexPath = sender as? IndexPath else { return }
             // Получаем по индексу название картинки и саму картинку из ресурсов приложения
             let image = UIImage(named: photosName[indexPath.row])
             // Передаём эту картинку в imageView внутри SingleImageViewController
