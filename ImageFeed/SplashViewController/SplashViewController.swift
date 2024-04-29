@@ -12,13 +12,20 @@ import ProgressHUD
 final class SplashViewController: UIViewController {
     
     private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
+    
+    weak var authViewController: AuthViewController?
+    
+    weak var profileViewController: ProfileViewController?
+    
+    
     private let oAuth2Service = OAuth2Service.shared
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if oAuth2TokenStorage.token != nil {
-            switchToTabBarController()
+        if let token = oAuth2TokenStorage.token {
+            fetchProfile(token: token)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -47,7 +54,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
+        //vc.dismiss(animated: true)
         
         UIBlockingProgressHUD.show()
         
@@ -65,6 +72,35 @@ extension SplashViewController: AuthViewControllerDelegate {
                 break
             }
         }
+    }
+    
+    func didAuthenticate(_ vc: AuthViewController) {
+        vc.dismiss(animated: true)
+        
+        guard let token = self.oAuth2TokenStorage.token else {
+            return
+        }
+        fetchProfile(token: token)
+    }
+    
+    func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile(token){ [weak self] result in
+            guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
+            switch result {
+            case .success(let profileData):
+                let profile = profileService.prepareProfile(data: profileData)
+                profileService.profileModel = profile
+                //profileViewController?.updateView(data: profile)
+                switchToTabBarController()
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+                break
+            }
+        }
+        
     }
 }
 

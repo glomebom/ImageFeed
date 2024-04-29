@@ -16,12 +16,28 @@ final class ProfileViewController: UIViewController {
     private let nickNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     
+    private let profileService = ProfileService.shared
+
     override func viewDidLoad() {
+        guard let profileModel = profileService.profileModel else {
+            print("Try to read: profileService.profileModel")
+            return }
+        print("\(profileModel)")
+        updateView(data: profileModel)
         setupView()
     }
     
     @IBAction func didTapLogoutButton() {
         // TODO: реализовать выход из профиля
+    }
+}
+
+extension ProfileViewController {
+    func updateView(data: Profile) {
+        //imageView
+        nameLabel.text = data.name
+        nickNameLabel.text = data.loginName
+        descriptionLabel.text = data.bio
     }
 }
 
@@ -68,7 +84,7 @@ extension ProfileViewController {
     
     private func nameLabelConfig() {
         // Создание лейбла с именем
-        nameLabel.text = "Екатерина Новикова"
+        //nameLabel.text = "Екатерина Новикова"
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
         nameLabel.textColor = .white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -83,7 +99,7 @@ extension ProfileViewController {
     
     private func nickNameLabelConfig() {
         //Создание лейбла с ником
-        nickNameLabel.text = "@ekaterina_nov"
+        //nickNameLabel.text = "@ekaterina_nov"
         nickNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         nickNameLabel.textColor = .ypGray
         nickNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -98,7 +114,7 @@ extension ProfileViewController {
     
     private func descriptionLabelConfig() {
         // Создание лейбла с описанием
-        descriptionLabel.text = "Hello, world!"
+        //descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false

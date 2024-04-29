@@ -10,6 +10,7 @@ import UIKit
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+    func didAuthenticate(_ vc: AuthViewController)
 }
 
 final class AuthViewController: UIViewController {
@@ -23,6 +24,10 @@ final class AuthViewController: UIViewController {
         setupView()
         configureBackButton()
     }
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        delegate?.didAuthenticate(self)
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
