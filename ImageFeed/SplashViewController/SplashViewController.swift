@@ -13,6 +13,7 @@ final class SplashViewController: UIViewController {
     
     private let oAuth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     weak var authViewController: AuthViewController?
     
@@ -54,19 +55,15 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        //vc.dismiss(animated: true)
-        
+        vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
-        
         oAuth2Service.fetchOAuthToken(for: code) { [weak self] result in
-            guard let self = self else { return }
-            
             UIBlockingProgressHUD.dismiss()
-            
+            guard let self = self else { return }
             switch result {
             case .success(let accessToken):
                 self.oAuth2TokenStorage.token = accessToken
-                self.switchToTabBarController()
+                self.didAuthenticate()
             case .failure(let error):
                 print("Error: \(error)")
                 break
@@ -74,9 +71,8 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    func didAuthenticate(_ vc: AuthViewController) {
-        vc.dismiss(animated: true)
-        
+    func didAuthenticate(/*_ vc: AuthViewController*/) {
+        self.dismiss(animated: true)
         guard let token = self.oAuth2TokenStorage.token else {
             return
         }
@@ -84,23 +80,33 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func fetchProfile(token: String) {
-        UIBlockingProgressHUD.show()
-        
-        profileService.fetchProfile(token){ [weak self] result in
+        profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
-            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let profileData):
                 let profile = profileService.prepareProfile(data: profileData)
                 profileService.profileModel = profile
-                //profileViewController?.updateView(data: profile)
+                guard let token = oAuth2TokenStorage.token else { return }
+                fetchImageProfile(token: token, username: profile.username)
                 switchToTabBarController()
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
                 break
             }
         }
-        
+    }
+    
+    func fetchImageProfile(token: String, username: String) {
+        profileImageService.fetchProfileImageURL(token: token, username: username) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageData):
+                profileImageService.profileImageURL = imageData.profileImage.small
+                print("fetchProfileImageURL: \(imageData.profileImage.small)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

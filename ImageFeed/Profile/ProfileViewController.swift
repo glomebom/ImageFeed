@@ -22,9 +22,8 @@ final class ProfileViewController: UIViewController {
         guard let profileModel = profileService.profileModel else {
             print("Try to read: profileService.profileModel")
             return }
-        print("\(profileModel)")
-        updateView(data: profileModel)
         setupView()
+        updateView(data: profileModel)
     }
     
     @IBAction func didTapLogoutButton() {

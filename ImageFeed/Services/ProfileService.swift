@@ -46,7 +46,6 @@ final class ProfileService {
                 case .success(let data):
                     do {
                         let profileData = try JSONDecoder().decode(ProfileResult.self, from:data)
-                        print("\(profileData)")
                         completion(.success(profileData))
                     } catch {
                         completion(.failure(error))
