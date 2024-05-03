@@ -45,25 +45,28 @@ final class ProfileImageService {
         }
         
         let task = URLSession.shared.data(for: requestWithTokenAndUsername) { result in
-            //DispatchQueue.main.async {
-            switch result {
-            case .success(let data):
-                do {
-                    let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
-                    completion(.success(profileImage))
-                    NotificationCenter.default
-                        .post(name: ProfileImageService.didChangeNotification,
-                              object: self,
-                              userInfo: ["URL": profileImage])
-                } catch {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    do {
+                        let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
+                        ///
+                        print("profileImage: \(profileImage)")
+                        ///
+                        completion(.success(profileImage))
+                        NotificationCenter.default
+                            .post(name: ProfileImageService.didChangeNotification,
+                                  object: self,
+                                  userInfo: ["URL": profileImage])
+                    } catch {
+                        completion(.failure(error))
+                        print("Error: error of requesting: \(error)")
+                    }
+                case .failure(let error):
                     completion(.failure(error))
                     print("Error: error of requesting: \(error)")
                 }
-            case .failure(let error):
-                completion(.failure(error))
-                print("Error: error of requesting: \(error)")
             }
-            //}
         }
         self.task = task
         task.resume()
