@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    
     private let imageView = UIImageView()
     private let exitButton = UIButton()
     private let nameLabel = UILabel()
@@ -17,8 +16,25 @@ final class ProfileViewController: UIViewController {
     private let descriptionLabel = UILabel()
     
     private let profileService = ProfileService.shared
-
+    private let profileImageService = ProfileImageService.shared
+    
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Подписывание на блоках
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+        
         guard let profileModel = profileService.profileModel else {
             print("Try to read: profileService.profileModel")
             return }
@@ -26,8 +42,14 @@ final class ProfileViewController: UIViewController {
         updateView(data: profileModel)
     }
     
-    @IBAction func didTapLogoutButton() {
-        // TODO: реализовать выход из профиля
+    //    @IBAction func didTapLogoutButton() {
+    //        // TODO: реализовать выход из профиля
+    //        print("DEBUG: try to logout")
+    //    }
+    
+    @objc
+    private func didTapLogoutButton(sender: UIButton) {
+        print("DEBUG: try to logout")
     }
 }
 
@@ -37,6 +59,13 @@ extension ProfileViewController {
         nameLabel.text = data.name
         nickNameLabel.text = data.loginName
         descriptionLabel.text = data.bio
+    }
+    
+    func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.profileImageURL,
+              let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
     }
 }
 

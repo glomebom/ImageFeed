@@ -25,7 +25,8 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let token = oAuth2TokenStorage.token {
+        if oAuth2TokenStorage.token != nil {
+            guard let token = oAuth2TokenStorage.token else { return }
             fetchProfile(token: token)
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
@@ -102,7 +103,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let imageData):
                 profileImageService.profileImageURL = imageData.profileImage.small
+                ///
                 print("fetchProfileImageURL: \(imageData.profileImage.small)")
+                ///
             case .failure(let error):
                 print(error.localizedDescription)
             }

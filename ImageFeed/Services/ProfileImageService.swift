@@ -9,10 +9,11 @@ import Foundation
 
 final class ProfileImageService {
     private enum GetUserImageDataError: Error {
-            case invalidProfileImageRequest
-        }
+        case invalidProfileImageRequest
+    }
     
     static let shared = ProfileImageService()
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     var profileImageURL: String?
     
@@ -23,9 +24,9 @@ final class ProfileImageService {
     
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
         let imageUrlString = mainUrlProfile + username
-        
+        ///
         print("makeProfileImageRequest: \(imageUrlString)")
-        
+        ///
         guard let url = URL(string: imageUrlString) else {
             preconditionFailure("Error: unable to construct profileImageURL")
         }
@@ -44,21 +45,25 @@ final class ProfileImageService {
         }
         
         let task = URLSession.shared.data(for: requestWithTokenAndUsername) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    do {
-                        let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
-                        completion(.success(profileImage))
-                    } catch {
-                        completion(.failure(error))
-                        print("Error: error of requesting: \(error)")
-                    }
-                case .failure(let error):
+            //DispatchQueue.main.async {
+            switch result {
+            case .success(let data):
+                do {
+                    let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
+                    completion(.success(profileImage))
+                    NotificationCenter.default
+                        .post(name: ProfileImageService.didChangeNotification,
+                              object: self,
+                              userInfo: ["URL": profileImage])
+                } catch {
                     completion(.failure(error))
                     print("Error: error of requesting: \(error)")
                 }
+            case .failure(let error):
+                completion(.failure(error))
+                print("Error: error of requesting: \(error)")
             }
+            //}
         }
         self.task = task
         task.resume()
