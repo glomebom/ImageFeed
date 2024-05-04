@@ -19,7 +19,6 @@ final class SplashViewController: UIViewController {
     
     weak var profileViewController: ProfileViewController?
     
-    
     private let oAuth2Service = OAuth2Service.shared
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
@@ -36,7 +35,6 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         // Проверим, что переходим на авторизацию
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
             guard
@@ -89,7 +87,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 profileService.profileModel = profile
                 guard let token = oAuth2TokenStorage.token else { return }
                 fetchImageProfile(token: token, username: profile.username)
-                switchToTabBarController()
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
                 break
@@ -104,8 +101,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let imageData):
                 profileImageService.profileImageURL = imageData.profileImage.small
                 ///
-                print("fetchProfileImageURL: \(imageData.profileImage.small)")
+                print("DEBUG: fetchProfileImageURL: \(imageData.profileImage.small)")
                 ///
+                switchToTabBarController()
             case .failure(let error):
                 print(error.localizedDescription)
             }

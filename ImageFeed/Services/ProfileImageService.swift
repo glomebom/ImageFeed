@@ -25,7 +25,7 @@ final class ProfileImageService {
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
         let imageUrlString = mainUrlProfile + username
         ///
-        print("makeProfileImageRequest: \(imageUrlString)")
+        print("DEBUG: makeProfileImageRequest: \(imageUrlString)")
         ///
         guard let url = URL(string: imageUrlString) else {
             preconditionFailure("Error: unable to construct profileImageURL")
@@ -37,7 +37,12 @@ final class ProfileImageService {
     }
     
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
-        task?.cancel()
+        if let task {
+            ///
+            print("DEBUG: task is already run")
+            ///
+            return
+        }
         
         guard let requestWithTokenAndUsername = makeProfileImageRequest(token: token, username: username)  else {
             completion(.failure(GetUserImageDataError.invalidProfileImageRequest))
@@ -51,7 +56,7 @@ final class ProfileImageService {
                     do {
                         let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
                         ///
-                        print("profileImage: \(profileImage)")
+                        print("DEBUG: profileImage: \(profileImage)")
                         ///
                         completion(.success(profileImage))
                         NotificationCenter.default
