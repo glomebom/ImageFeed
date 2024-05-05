@@ -33,7 +33,14 @@ final class ProfileService {
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         assert(Thread.isMainThread)
-        task?.cancel()
+        //task?.cancel()
+        
+        if let task {
+            ///
+            print("DEBUG: task fetchProfile is already run")
+            ///
+            return
+        }
         
         guard let requestWithToken = makeProfileRequest(token: token) else {
             completion(.failure(GetUserDataError.invalidProfileRequest))

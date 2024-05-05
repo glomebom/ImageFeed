@@ -39,7 +39,7 @@ final class ProfileImageService {
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
         if let task {
             ///
-            print("DEBUG: task is already run")
+            print("DEBUG: task fetchProfileImageURL is already run")
             ///
             return
         }
