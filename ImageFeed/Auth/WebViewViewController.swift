@@ -12,7 +12,7 @@ import WebKit
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
-    func webViewViewControllerShowAlert(_ vc: WebViewViewController)
+    //func webViewViewControllerShowAlert(_ vc: WebViewViewController)
 }
 
 final class WebViewViewController: UIViewController {
@@ -107,7 +107,6 @@ extension WebViewViewController: WKNavigationDelegate {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
-            delegate?.webViewViewControllerShowAlert(self)
             decisionHandler(.allow)
         }
     }
