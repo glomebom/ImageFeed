@@ -53,7 +53,7 @@ final class ProfileService {
                         completion(.success(decodedData))
                 case .failure(let error):
                     completion(.failure(error))
-                    print("Error: error of requesting: \(error)")
+                    print("[ProfileService]: \(error)")
                 }
             }
         }

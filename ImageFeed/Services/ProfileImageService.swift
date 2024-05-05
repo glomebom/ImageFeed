@@ -64,7 +64,7 @@ final class ProfileImageService {
                                   userInfo: ["URL": decodedData])
                 case .failure(let error):
                     completion(.failure(error))
-                    print("Error: error of requesting: \(error)")
+                    print("[ProfileImageService]: \(error)")
                 }
             }
         }
