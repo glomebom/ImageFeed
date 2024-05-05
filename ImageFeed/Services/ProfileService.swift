@@ -33,7 +33,6 @@ final class ProfileService {
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         assert(Thread.isMainThread)
-        //task?.cancel()
         
         if let task {
             ///
@@ -47,17 +46,11 @@ final class ProfileService {
             return
         }
         
-        let task = URLSession.shared.data(for: requestWithToken) { result in
+        let task = URLSession.shared.objectTask(for: requestWithToken) { (result: Result<ProfileResult,Error>) in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    do {
-                        let profileData = try JSONDecoder().decode(ProfileResult.self, from:data)
-                        completion(.success(profileData))
-                    } catch {
-                        completion(.failure(error))
-                        print("Error: error of requesting: \(error)")
-                    }
+                case .success(let decodedData):
+                        completion(.success(decodedData))
                 case .failure(let error):
                     completion(.failure(error))
                     print("Error: error of requesting: \(error)")

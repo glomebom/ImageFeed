@@ -46,8 +46,14 @@ final class OAuth2Service {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-
-        task?.cancel()
+                
+        if let task {
+            ///
+            print("DEBUG: task fetchOAuthToken is already run")
+            ///
+            return
+        }
+        
         lastCode = code
         
         guard let requestWithCode = makeOAuthTokenRequest(code: code) else {
@@ -55,26 +61,21 @@ final class OAuth2Service {
             return
         }
         
-        let task = URLSession.shared.data(for: requestWithCode){ [weak self] result in
+        let task = URLSession.shared.objectTask(for: requestWithCode) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else {return}
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    do {
-                        let oAuthToken = try JSONDecoder().decode(OAuthTokenResponseBody.self, from:data)
-                        guard let accessToken = oAuthToken.accessToken else {
-                            fatalError("Error: can`t decode token!")
-                        }
-                        completion(.success(accessToken))
-                    } catch {
-                        completion(.failure(error))
-                        print("Error: error of requesting: \(error)")
+                case.success(let decodedData):
+                    guard let accessToken = decodedData.accessToken else {
+                        fatalError("Error: can`t decode token!")
                     }
+                    self.task = nil
+                    self.lastCode = nil
+                    completion(.success(accessToken))
                 case .failure(let error):
                     completion(.failure(error))
                     print("Error: error of requesting: \(error)")
                 }
-                self?.task = nil
-                self?.lastCode = nil
             }
         }
         self.task = task

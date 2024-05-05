@@ -37,6 +37,7 @@ final class ProfileImageService {
     }
     
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
+        
         if let task {
             ///
             print("DEBUG: task fetchProfileImageURL is already run")
@@ -49,24 +50,18 @@ final class ProfileImageService {
             return
         }
         
-        let task = URLSession.shared.data(for: requestWithTokenAndUsername) { result in
+        let task = URLSession.shared.objectTask(for: requestWithTokenAndUsername) { (result: Result<UserResult,Error>) in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    do {
-                        let profileImage = try JSONDecoder().decode(UserResult.self, from:data)
+                case .success(let decodedData):
                         ///
-                        print("DEBUG: profileImage: \(profileImage)")
+                        print("DEBUG: profileImage: \(decodedData)")
                         ///
-                        completion(.success(profileImage))
+                        completion(.success(decodedData))
                         NotificationCenter.default
                             .post(name: ProfileImageService.didChangeNotification,
                                   object: self,
-                                  userInfo: ["URL": profileImage])
-                    } catch {
-                        completion(.failure(error))
-                        print("Error: error of requesting: \(error)")
-                    }
+                                  userInfo: ["URL": decodedData])
                 case .failure(let error):
                     completion(.failure(error))
                     print("Error: error of requesting: \(error)")
