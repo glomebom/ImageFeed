@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let imageView = UIImageView()
@@ -66,6 +67,7 @@ extension ProfileViewController {
               let url = URL(string: profileImageURL)
         else { return }
         // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
+        imageView.kf.setImage(with: url)
     }
 }
 
