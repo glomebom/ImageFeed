@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
     private let imageView = UIImageView()
@@ -18,6 +19,7 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -43,20 +45,16 @@ final class ProfileViewController: UIViewController {
         updateView(data: profileModel)
     }
     
-    @IBAction func didTapLogoutButton() {
-        // TODO: реализовать выход из профиля
-        print("DEBUG: try to logout")
-    }
-    
     @objc
-    private func didTapLogoutButton(sender: UIButton) {
-        print("DEBUG: try to logout")
+    private func didTapButton() {
+        oAuth2TokenStorage.resetToken()
+        HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
     }
 }
 
 extension ProfileViewController {
     func updateView(data: Profile) {
-        //imageView
         nameLabel.text = data.name
         nickNameLabel.text = data.loginName
         descriptionLabel.text = data.bio
@@ -98,6 +96,13 @@ extension ProfileViewController {
     private func exitButtonConfig() {
         // Создание кнопки выхода
         let exitImage = UIImage(named: "exit")
+        guard let exitImage else { return }
+        let exitButton = UIButton.systemButton(
+            with: exitImage,
+            target: self,
+            action: #selector(Self.didTapButton)
+        )
+        exitButton.tintColor = UIColor(named: "YPRed")
         exitButton.setImage(exitImage, for: .normal)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)
@@ -113,7 +118,6 @@ extension ProfileViewController {
     
     private func nameLabelConfig() {
         // Создание лейбла с именем
-        //nameLabel.text = "Екатерина Новикова"
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
         nameLabel.textColor = .white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +132,6 @@ extension ProfileViewController {
     
     private func nickNameLabelConfig() {
         //Создание лейбла с ником
-        //nickNameLabel.text = "@ekaterina_nov"
         nickNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         nickNameLabel.textColor = .ypGray
         nickNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -143,7 +146,6 @@ extension ProfileViewController {
     
     private func descriptionLabelConfig() {
         // Создание лейбла с описанием
-        //descriptionLabel.text = "Hello, world!"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false

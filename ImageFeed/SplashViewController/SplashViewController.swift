@@ -14,6 +14,7 @@ final class SplashViewController: UIViewController {
     private let oAuth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let imageView = UIImageView()
     
     weak var authViewController: AuthViewController?
     
@@ -24,31 +25,48 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setupView()
         if oAuth2TokenStorage.token != nil {
             guard let token = oAuth2TokenStorage.token else { return }
             fetchProfile(token: token)
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            goToAuth()
         }
     }
 }
 
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Проверим, что переходим на авторизацию
-        if segue.identifier == showAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {
-                assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
-                return
-            }
-            // Установим делегатом контроллера наш SplashViewController
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
+    private func setupView() {
+        view.backgroundColor = .ypBlack
+        imageViewConfig()
+    }
+    
+    private func imageViewConfig() {
+        imageView.image = UIImage(named: "Vector")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 75),
+            imageView.heightAnchor.constraint(equalToConstant: 78),
+            imageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+        ])
+    }
+}
+
+extension SplashViewController {
+    private func goToAuth() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        guard let viewController: UINavigationController = storyboard.instantiateViewController(withIdentifier: "UINavigationController") as? UINavigationController,
+              let authViewController = viewController.viewControllers[0] as? AuthViewController else {
+            assertionFailure("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)")
+            return
         }
+        authViewController.delegate = self
+        viewController.modalPresentationStyle = .fullScreen
+        present(viewController, animated: true)
     }
 }
 
@@ -72,7 +90,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    func didAuthenticate(/*_ vc: AuthViewController*/) {
+    func didAuthenticate() {
         self.dismiss(animated: true)
         guard let token = self.oAuth2TokenStorage.token else {
             return
@@ -102,9 +120,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let imageData):
                 profileImageService.profileImageURL = imageData.profileImage.small
-                ///
-                print("DEBUG: fetchProfileImageURL: \(imageData.profileImage.small)")
-                ///
                 switchToTabBarController()
             case .failure(let error):
                 print(error.localizedDescription)

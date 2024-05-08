@@ -35,9 +35,6 @@ final class ProfileService {
         assert(Thread.isMainThread)
         
         if let task {
-            ///
-            print("DEBUG: task fetchProfile is already run")
-            ///
             return
         }
         
@@ -50,7 +47,7 @@ final class ProfileService {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let decodedData):
-                        completion(.success(decodedData))
+                    completion(.success(decodedData))
                 case .failure(let error):
                     completion(.failure(error))
                     print("[ProfileService]: \(error)")

@@ -24,9 +24,6 @@ final class ProfileImageService {
     
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
         let imageUrlString = mainUrlProfile + username
-        ///
-        print("DEBUG: makeProfileImageRequest: \(imageUrlString)")
-        ///
         guard let url = URL(string: imageUrlString) else {
             preconditionFailure("Error: unable to construct profileImageURL")
         }
@@ -39,9 +36,6 @@ final class ProfileImageService {
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
         
         if let task {
-            ///
-            print("DEBUG: task fetchProfileImageURL is already run")
-            ///
             return
         }
         
@@ -54,14 +48,11 @@ final class ProfileImageService {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let decodedData):
-                        ///
-                        print("DEBUG: profileImage: \(decodedData)")
-                        ///
-                        completion(.success(decodedData))
-                        NotificationCenter.default
-                            .post(name: ProfileImageService.didChangeNotification,
-                                  object: self,
-                                  userInfo: ["URL": decodedData])
+                    completion(.success(decodedData))
+                    NotificationCenter.default
+                        .post(name: ProfileImageService.didChangeNotification,
+                              object: self,
+                              userInfo: ["URL": decodedData])
                 case .failure(let error):
                     completion(.failure(error))
                     print("[ProfileImageService]: \(error)")

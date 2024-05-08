@@ -46,11 +46,8 @@ final class OAuth2Service {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-                
+        
         if let task {
-            ///
-            print("DEBUG: task fetchOAuthToken is already run")
-            ///
             return
         }
         
