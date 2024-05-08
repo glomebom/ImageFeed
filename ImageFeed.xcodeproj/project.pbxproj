@@ -19,6 +19,7 @@
 		F76C9D712BC4649C00ADF650 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C9D702BC4649C00ADF650 /* URLSession+data.swift */; };
 		F76C9D742BC469E200ADF650 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C9D732BC469E200ADF650 /* OAuthTokenResponseBody.swift */; };
 		F76E3F4C2BEB8C4E0038525D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = F76E3F4B2BEB8C4E0038525D /* SwiftKeychainWrapper */; };
+		F76E3F4F2BEB96560038525D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76E3F4E2BEB96560038525D /* TabBarController.swift */; };
 		F76FB56C2BBC784500E93A6E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76FB56B2BBC784500E93A6E /* AuthViewController.swift */; };
 		F77072242BD0466F00243EA7 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = F77072232BD0466F00243EA7 /* ProgressHUD */; };
 		F77564D82B90F91A00618789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77564D72B90F91A00618789 /* AppDelegate.swift */; };
@@ -47,6 +48,7 @@
 		F76BDE812BBD61BD0032DA78 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		F76C9D702BC4649C00ADF650 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		F76C9D732BC469E200ADF650 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
+		F76E3F4E2BEB96560038525D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		F76FB56B2BBC784500E93A6E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		F77564D42B90F91A00618789 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F77564D72B90F91A00618789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +127,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F76E3F4D2BEB96470038525D /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				F76E3F4E2BEB96560038525D /* TabBarController.swift */,
+			);
+			path = TabBarController;
+			sourceTree = "<group>";
+		};
 		F76FB56A2BBC783000E93A6E /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +163,7 @@
 		F77564D62B90F91A00618789 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F76E3F4D2BEB96470038525D /* TabBarController */,
 				F76214092BC9C744000DF046 /* SplashViewController */,
 				F76C9D722BC469D700ADF650 /* Models */,
 				F76C9D6B2BC45BEF00ADF650 /* Services */,
@@ -279,6 +290,7 @@
 				F76C9D712BC4649C00ADF650 /* URLSession+data.swift in Sources */,
 				F76BDE822BBD61BD0032DA78 /* WebViewViewController.swift in Sources */,
 				F76A5B1C2BC1666500DD3FC0 /* OAuth2Service.swift in Sources */,
+				F76E3F4F2BEB96560038525D /* TabBarController.swift in Sources */,
 				F77744FB2BC5D45000721F5F /* OAuth2TokenStorage.swift in Sources */,
 				F77564DA2B90F91A00618789 /* SceneDelegate.swift in Sources */,
 			);
