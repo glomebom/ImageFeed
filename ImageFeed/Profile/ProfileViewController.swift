@@ -66,7 +66,6 @@ extension ProfileViewController {
         guard let profileImageURL = ProfileImageService.shared.profileImageURL,
               let url = URL(string: profileImageURL)
         else { return }
-        // TODO [Sprint 11] Обновитt аватар, используя Kingfisher
         imageView.kf.setImage(with: url)
     }
 }
