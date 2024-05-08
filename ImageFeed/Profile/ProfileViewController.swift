@@ -43,10 +43,10 @@ final class ProfileViewController: UIViewController {
         updateView(data: profileModel)
     }
     
-    //    @IBAction func didTapLogoutButton() {
-    //        // TODO: реализовать выход из профиля
-    //        print("DEBUG: try to logout")
-    //    }
+    @IBAction func didTapLogoutButton() {
+        // TODO: реализовать выход из профиля
+        print("DEBUG: try to logout")
+    }
     
     @objc
     private func didTapLogoutButton(sender: UIButton) {
