@@ -47,13 +47,11 @@ final class OAuth2Service {
             return
         }
         
-        if let task {
-            return
-        }
+        guard task == nil else { return }
         
         lastCode = code
         
-        guard let requestWithCode = makeOAuthTokenRequest(code: code) else {
+        guard let lastCode, let requestWithCode = makeOAuthTokenRequest(code: lastCode) else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }

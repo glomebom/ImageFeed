@@ -5,8 +5,6 @@
 //  Created by Gleb on 09.04.2024.
 //
 
-import Foundation
-import UIKit
 import SwiftKeychainWrapper
 
 protocol OAuth2TokenStorageProtocol {

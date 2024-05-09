@@ -26,7 +26,6 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Подписывание на блоках
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.didChangeNotification,
@@ -79,12 +78,10 @@ extension ProfileViewController {
     }
     
     private func profileImageConfig() {
-        // Создание фото профиля
         imageView.image = UIImage(named: "Photo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
-        // Констрейнты для фото профиля
         NSLayoutConstraint.activate([
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.heightAnchor.constraint(equalToConstant: 70),
@@ -94,7 +91,6 @@ extension ProfileViewController {
     }
     
     private func exitButtonConfig() {
-        // Создание кнопки выхода
         let exitImage = UIImage(named: "exit")
         guard let exitImage else { return }
         let exitButton = UIButton.systemButton(
@@ -107,7 +103,6 @@ extension ProfileViewController {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)
         
-        // Констрейнты для кнопки выхода
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 24),
             exitButton.heightAnchor.constraint(equalToConstant: 24),
@@ -117,13 +112,11 @@ extension ProfileViewController {
     }
     
     private func nameLabelConfig() {
-        // Создание лейбла с именем
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
         nameLabel.textColor = .white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
         
-        // Констрейнты для лейбла с именем
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8)
@@ -131,13 +124,11 @@ extension ProfileViewController {
     }
     
     private func nickNameLabelConfig() {
-        //Создание лейбла с ником
         nickNameLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         nickNameLabel.textColor = .ypGray
         nickNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nickNameLabel)
         
-        // Констрейнты для лейбла с ником
         NSLayoutConstraint.activate([
             nickNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             nickNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
@@ -145,13 +136,11 @@ extension ProfileViewController {
     }
     
     private func descriptionLabelConfig() {
-        // Создание лейбла с описанием
         descriptionLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
         
-        // Констрейнты для лейбла с описанием
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: nickNameLabel.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 8)

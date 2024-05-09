@@ -35,9 +35,7 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<UserResult, Error>) -> Void) {
         
-        if let task {
-            return
-        }
+        guard task == nil else { return }
         
         guard let requestWithTokenAndUsername = makeProfileImageRequest(token: token, username: username)  else {
             completion(.failure(GetUserImageDataError.invalidProfileImageRequest))

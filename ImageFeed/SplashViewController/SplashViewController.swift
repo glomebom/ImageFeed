@@ -82,7 +82,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.oAuth2TokenStorage.token = accessToken
                 self.didAuthenticate()
             case .failure(let error):
-                //Алерт
                 authViewController?.showAlert(vc)
                 print("[SplashViewController]: \(error)")
                 break
@@ -106,7 +105,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 let profile = profileService.prepareProfile(data: profileData)
                 profileService.profileModel = profile
                 guard let token = oAuth2TokenStorage.token else { return }
-                fetchImageProfile(token: token, username: profile.username)
+                fetchImageProfile(token: token, username: profileData.username)
             case .failure(let error):
                 print("[SplashViewController]: \(error.localizedDescription)")
                 break
@@ -130,15 +129,12 @@ extension SplashViewController: AuthViewControllerDelegate {
 
 extension SplashViewController {
     private func switchToTabBarController() {
-        // Получение экземпляра window
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("[SplashViewController]: Invalid window configuration")
             return
         }
-        // Создаём экземпляр нужного контроллера из Storyboard с помощью ранее заданного идентификатора
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
-        // Установим в `rootViewController` полученный контроллер
         window.rootViewController = tabBarController
     }
 }
