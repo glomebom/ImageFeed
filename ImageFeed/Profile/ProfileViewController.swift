@@ -78,7 +78,6 @@ extension ProfileViewController {
     }
     
     private func profileImageConfig() {
-        imageView.image = UIImage(named: "Photo")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
