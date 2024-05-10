@@ -58,7 +58,7 @@ final class ProfileService {
     
     func prepareProfile(data: ProfileResult) -> Profile {
         let username = data.username
-        let name = data.firstName + " " + data.lastName
+        let name = data.firstName + " " + (data.lastName ?? "")
         let loginName = "@" + data.username
         let bio = data.bio
         let profile = Profile(username: username,
@@ -68,4 +68,3 @@ final class ProfileService {
         return profile
     }
 }
-
