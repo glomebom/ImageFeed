@@ -20,7 +20,6 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
-    // Приватный аутлет для исключения обращения напрямую
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet var scrollView: UIScrollView!
     
@@ -29,17 +28,14 @@ final class SingleImageViewController: UIViewController {
         
         imageView.image = image
         guard let image = imageView.image else { return }
-        // Размеры view под размеры изображения
         imageView.frame.size = image.size
         
         rescaleAndCenterImageInScrollView(image: image)
         
-        // Параметры zoom
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
     }
     
-    // Скрытие view по нажатию на кнопку
     @IBAction func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
@@ -55,10 +51,8 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
-// Реализация метода выбора view к которой будет применяться zoom
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        // Передаем view с размерами полученными в viewDidLoad
         imageView
     }
 }
