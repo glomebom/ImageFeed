@@ -70,7 +70,7 @@ extension ImagesListViewController {
         
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: photoDate)
-
+        
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "active") : UIImage(named: "not_active")
         cell.likeButton.setImage(likeImage, for: .normal)
@@ -96,5 +96,15 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         
         return cellHeight
+    }
+}
+
+extension ImagesListViewController {
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        
     }
 }
