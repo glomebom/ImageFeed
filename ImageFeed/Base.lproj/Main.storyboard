@@ -122,6 +122,9 @@
                                                     <rect key="frame" x="332" y="4" width="42" height="42"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="active"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClickedWithSender:" destination="g28-LM-LcQ" eventType="touchUpInside" id="r0W-80-ldp"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2024" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htN-Pk-Z1R" userLabel="Date Label">
                                                     <rect key="frame" x="24" y="175" width="102" height="16"/>

@@ -9,9 +9,7 @@ import Foundation
 
 final class ImagesListService {
     
-    private enum GetUserDataError: Error {
-        case invalidPhotoRequest
-    }
+    static let shared = ImagesListService()
     
     private (set) var photos: [Photo] = []
     
@@ -21,17 +19,12 @@ final class ImagesListService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
-    //    функция внутри себя определяет номер следующей страницы для закачки (номер не должен сообщаться извне, как параметр функции);
-    //    если идёт закачка, то нового сетевого запроса не создаётся, а выполнение функции прерывается;
-    //    при получении новых фотографий массив photos обновляется из главного потока, новые фото добавляются в конец массива;
-    //    после обновления значения массива photos публикуется нотификация ImagesListService.DidChangeNotification.
-    
     private init() {}
     
     private func makePhotoRequest(page: Int) -> URLRequest? {
         guard let url = URL(string: mainUrlProfile + "/photos?page=\(page)"),
               let token = OAuth2TokenStorage().token else {
-            preconditionFailure("Error: unable to construct PhotoRequestUrl")
+            preconditionFailure("[ImagesListService]: Error: unable to construct PhotoRequestUrl")
         }
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -39,15 +32,19 @@ final class ImagesListService {
         return request
     }
     
-    private func fetchPhotosNextPage(page: Int, completion: @escaping (Result<Photo, Error>) -> Void) {
+    func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         
         guard task == nil else { return }
         
         let nextPage = (lastLoadedPage ?? 0)  + 1
         
-        guard let requestWithPageNumber = makePhotoRequest(page: page) else {
-            completion(.failure(GetUserDataError.invalidPhotoRequest))
+        ///
+        print("[DEBUG]: [ImagesListService]: nextPage: \(nextPage)")
+        ///
+        
+        guard let requestWithPageNumber = makePhotoRequest(page: nextPage) else {
+            print("[ImagesListService]: error in requestWithPageNumber")
             return
         }
         
@@ -59,32 +56,93 @@ final class ImagesListService {
                     let photo = Photo(
                         id: dataOfPhoto.id,
                         size: CGSize(width: dataOfPhoto.width, height: dataOfPhoto.height),
-                        createdAt: self.getDateFromString(dateString: dataOfPhoto.created_at),
+                        createdAt: self.getDateFromString(dateString: dataOfPhoto.createdAt),
                         welcomeDescription: dataOfPhoto.description,
                         thumbImageURL: dataOfPhoto.urls.thumb,
                         largeImageURL: dataOfPhoto.urls.full,
                         isLiked: dataOfPhoto.likedByUser
                     )
+                    ///
+                    print("[DEBUG]: [ImagesListService]: dataOfPhoto.id: \(dataOfPhoto.id)")
+                    ///
                     freshArrayOfPhotos.append(photo)
                 }
-                //completion(.success(decodedData))
                 DispatchQueue.main.async {
                     self.photos += freshArrayOfPhotos
                     self.lastLoadedPage = nextPage
                     self.task = nil
                     NotificationCenter.default
                         .post(name: ImagesListService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": decodedData])
+                              object: self,
+                              userInfo: ["URL": decodedData])
                 }
             case .failure(let error):
-                //completion(.failure(error))
                 print("[ImagesListService]: \(error)")
                 self.task = nil
             }
+            self.task = nil
+            
         }
-        self.task = task
+        //self.task = task
         task.resume()
+    }
+    
+    // Метод смены лайка
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        //assert(Thread.isMainThread)
+        
+        guard task == nil else { return }
+        
+        guard var likePhotoRequestUrl = likePhotoRequest(photoId: photoId) else {
+            preconditionFailure("[ImagesListService]: Error: unable to construct url in func changeLike() ")
+        }
+        
+        likePhotoRequestUrl.httpMethod = isLike ? "DELETE" : "POST"
+        
+        let task = URLSession.shared.objectTask(for: likePhotoRequestUrl) { [weak self] (result: Result<LikeResult,Error>) in
+            
+            guard let self = self else {
+                print("[ImagesListService]: Error: changeLike URLSession.shared.objectTask error")
+                completion(.failure(NetworkError.urlSessionError))
+                return
+            }
+            switch result {
+            case .success(let result):
+                DispatchQueue.main.async {
+                    if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                        let photo = self.photos[index]
+                        let newPhoto = Photo(
+                            id: photo.id,
+                            size: photo.size,
+                            createdAt: photo.createdAt,
+                            welcomeDescription: photo.welcomeDescription,
+                            thumbImageURL: photo.thumbImageURL,
+                            largeImageURL: photo.largeImageURL,
+                            isLiked: !photo.isLiked
+                        )
+                        self.photos[index] = newPhoto
+                        completion(.success(Void()))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                print("[ImagesListService]: Error: changeLike error - \(String(describing: error))")
+                self.task = nil
+            }
+            self.task = nil
+        }
+        task.resume()
+    }
+    
+    // Запрос статуса лайка фото
+    private func likePhotoRequest(photoId: String) -> URLRequest? {
+        guard let url = URL(string: mainUrlProfile + "photos/\(photoId)/like"),
+              let token = OAuth2TokenStorage().token else {
+            preconditionFailure("[ImagesListService]: Error: unable to construct likePhotoRequest")
+        }
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
     }
     
     private func getDateFromString(dateString: String?) -> Date? {
@@ -94,5 +152,9 @@ final class ImagesListService {
             return nil
         }
         return formatter.date(from: dateString)
+    }
+    
+    func cleanPhotos() {
+        photos = []
     }
 }
