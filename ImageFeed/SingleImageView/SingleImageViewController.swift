@@ -55,15 +55,23 @@ extension SingleImageViewController {
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
             switch result {
             case .success(let result):
-                let imageResult = result.image
-                self?.rescaleAndCenterImageInScrollView(image: imageResult)
+                //let imageResult = result.image
+                self.rescaleAndCenterImageInScrollView(image: result.image)
+                ///
+                //print("[DEBUG]: [SingleImageViewController]: result.image.size: \(result.image.size)")
+                ///
             case .failure(let error):
                 print("[SingleImageViewController]: Kingfisher error: \(error)")
+                
+                if let stub = UIImage(named: "Stub") {
+                    self.imageView.image = stub
+                    self.rescaleAndCenterImageInScrollView(image: stub)
+                }
+                self.showError()
             }
-            //алерт
-            //заглушка
         }
     }
 }
@@ -83,12 +91,52 @@ extension SingleImageViewController {
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let theoreticalScale = min(hScale, vScale)
+        let scale = min(maxZoomScale, max(minZoomScale, theoreticalScale)) * 1000
         scrollView.setZoomScale(scale, animated: true)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
+        ///
+        print("[DEBUG]: [SingleImageViewController]: visibleRectSize: \(visibleRectSize)")
+        print("[DEBUG]: [SingleImageViewController]: imageSize: \(imageSize)")
+        print("[DEBUG]: [SingleImageViewController]: hScale: \(hScale)")
+        print("[DEBUG]: [SingleImageViewController]: vScale: \(vScale)")
+        print("[DEBUG]: [SingleImageViewController]: theoreticalScale: \(theoreticalScale)")
+        print("[DEBUG]: [SingleImageViewController]: scale: \(scale)")
+        print("[DEBUG]: [SingleImageViewController]: newContentSize: \(newContentSize)")
+        print("[DEBUG]: [SingleImageViewController]: x: \(x)")
+        print("[DEBUG]: [SingleImageViewController]: y: \(y)")
+        ///
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+}
+
+extension SingleImageViewController {
+    func showError() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Попробовать еще раз?",
+            preferredStyle: .alert
+        )
+        
+        let cancelAction = UIAlertAction(
+            title: "Не надо",
+            style: .default) { _ in 
+                alert.dismiss(animated: true)
+            }
+        
+        let tryAgainAction = UIAlertAction(
+            title: "Повторить",
+            style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                self.setImage()
+            }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(tryAgainAction)
+
+        present(alert, animated: true)
     }
 }

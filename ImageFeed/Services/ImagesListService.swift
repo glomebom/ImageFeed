@@ -38,11 +38,7 @@ final class ImagesListService {
         guard task == nil else { return }
         
         let nextPage = (lastLoadedPage ?? 0)  + 1
-        
-        ///
-        print("[DEBUG]: [ImagesListService]: nextPage: \(nextPage)")
-        ///
-        
+
         guard let requestWithPageNumber = makePhotoRequest(page: nextPage) else {
             print("[ImagesListService]: error in requestWithPageNumber")
             return
@@ -62,9 +58,6 @@ final class ImagesListService {
                         largeImageURL: dataOfPhoto.urls.full,
                         isLiked: dataOfPhoto.likedByUser
                     )
-                    ///
-                    print("[DEBUG]: [ImagesListService]: dataOfPhoto.id: \(dataOfPhoto.id)")
-                    ///
                     freshArrayOfPhotos.append(photo)
                 }
                 DispatchQueue.main.async {
@@ -89,7 +82,6 @@ final class ImagesListService {
     
     // Метод смены лайка
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        //assert(Thread.isMainThread)
         
         guard task == nil else { return }
         
@@ -107,7 +99,7 @@ final class ImagesListService {
                 return
             }
             switch result {
-            case .success(let result):
+            case .success(_):
                 DispatchQueue.main.async {
                     if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                         let photo = self.photos[index]

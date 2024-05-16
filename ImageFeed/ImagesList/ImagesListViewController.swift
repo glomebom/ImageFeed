@@ -88,7 +88,7 @@ extension ImagesListViewController: UITableViewDataSource {
         // Загрузка изображения по по url
         imageView.kf.setImage(with: url) { result in
             switch result {
-            case .success(let result):
+            case .success(_):
                 // Перерисовка ячеек
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             case .failure(let error):
@@ -176,10 +176,6 @@ extension ImagesListViewController {
         willDisplay cell: UITableViewCell,
         forRowAt indexPath: IndexPath
     ) {
-        ///
-        print("[DEBUG]: [ImagesListViewController]: indexPath.row + 1: \(indexPath.row + 1)")
-        print("[DEBUG]: [ImagesListViewController]: photos.count: \(photos.count)")
-        ///
         if indexPath.row + 1 == photos.count {
             imagesListService.fetchPhotosNextPage()
         }
@@ -190,10 +186,6 @@ extension ImagesListViewController {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
-        ///
-        print("[DEBUG]: [ImagesListViewController]: oldCount: \(oldCount)")
-        print("[DEBUG]: [ImagesListViewController]: newCount: \(newCount)")
-        ///
         if oldCount != newCount {
             tableView.performBatchUpdates {
                 let indexPaths = (oldCount..<newCount).map { i in

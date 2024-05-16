@@ -20,7 +20,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let imagesListService = ImagesListService.shared
-    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let profileLogoutService = ProfileLogoutService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -47,12 +47,7 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapButton() {
-        oAuth2TokenStorage.resetToken()
-        profileService.profileModel = nil
-        profileImageService.profileImageURL = nil
-        imagesListService.cleanPhotos()
-        HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
-        WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: Date(timeIntervalSince1970: 0), completionHandler: {})
+        profileLogoutService.logout()
     }
 }
 
@@ -115,7 +110,7 @@ extension ProfileViewController {
     }
     
     private func nameLabelConfig() {
-        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold/*UIFont.Weight(rawValue: 700.00)*/)
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         nameLabel.textColor = .white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
