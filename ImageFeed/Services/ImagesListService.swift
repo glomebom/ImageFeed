@@ -38,7 +38,7 @@ final class ImagesListService {
         guard task == nil else { return }
         
         let nextPage = (lastLoadedPage ?? 0)  + 1
-
+        
         guard let requestWithPageNumber = makePhotoRequest(page: nextPage) else {
             print("[ImagesListService]: error in requestWithPageNumber")
             return
@@ -76,7 +76,6 @@ final class ImagesListService {
             self.task = nil
             
         }
-        //self.task = task
         task.resume()
     }
     

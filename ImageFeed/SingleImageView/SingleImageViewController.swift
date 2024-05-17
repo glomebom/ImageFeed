@@ -20,7 +20,7 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         
         scrollView.minimumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
+        scrollView.maximumZoomScale = 10
         
         setImage()
     }
@@ -58,11 +58,7 @@ extension SingleImageViewController {
             guard let self = self else { return }
             switch result {
             case .success(let result):
-                //let imageResult = result.image
                 self.rescaleAndCenterImageInScrollView(image: result.image)
-                ///
-                //print("[DEBUG]: [SingleImageViewController]: result.image.size: \(result.image.size)")
-                ///
             case .failure(let error):
                 print("[SingleImageViewController]: Kingfisher error: \(error)")
                 
@@ -91,24 +87,13 @@ extension SingleImageViewController {
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let theoreticalScale = min(hScale, vScale)
-        let scale = min(maxZoomScale, max(minZoomScale, theoreticalScale)) * 1000
+        let theoreticalScale = max(hScale, vScale)
+        let scale = max(maxZoomScale, max(minZoomScale, theoreticalScale))
         scrollView.setZoomScale(scale, animated: true)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
-        ///
-        print("[DEBUG]: [SingleImageViewController]: visibleRectSize: \(visibleRectSize)")
-        print("[DEBUG]: [SingleImageViewController]: imageSize: \(imageSize)")
-        print("[DEBUG]: [SingleImageViewController]: hScale: \(hScale)")
-        print("[DEBUG]: [SingleImageViewController]: vScale: \(vScale)")
-        print("[DEBUG]: [SingleImageViewController]: theoreticalScale: \(theoreticalScale)")
-        print("[DEBUG]: [SingleImageViewController]: scale: \(scale)")
-        print("[DEBUG]: [SingleImageViewController]: newContentSize: \(newContentSize)")
-        print("[DEBUG]: [SingleImageViewController]: x: \(x)")
-        print("[DEBUG]: [SingleImageViewController]: y: \(y)")
-        ///
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }
@@ -136,7 +121,7 @@ extension SingleImageViewController {
         
         alert.addAction(cancelAction)
         alert.addAction(tryAgainAction)
-
+        
         present(alert, animated: true)
     }
 }

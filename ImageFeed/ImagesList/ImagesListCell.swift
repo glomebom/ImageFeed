@@ -37,9 +37,6 @@ final class ImagesListCell: UITableViewCell {
                 print("[ImagesListCell]: Error in ImagesListCell")
                 return
             }
-            ///
-            print("[DEBUG]: [ImagesListCell]: isLiked: \(isLiked)")
-            ///
             self.setImageLike(isLiked: isLiked)
         }
     }
