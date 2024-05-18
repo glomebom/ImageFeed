@@ -13,6 +13,8 @@ protocol OAuth2TokenStorageProtocol {
 
 final class OAuth2TokenStorage: OAuth2TokenStorageProtocol {
     
+    static let shared = OAuth2TokenStorage()
+    
     private enum Keys: String {
         case token
     }

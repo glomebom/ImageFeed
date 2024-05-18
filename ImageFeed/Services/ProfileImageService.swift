@@ -8,6 +8,7 @@
 import Foundation
 
 final class ProfileImageService {
+    
     private enum GetUserImageDataError: Error {
         case invalidProfileImageRequest
     }
@@ -56,6 +57,7 @@ final class ProfileImageService {
                     print("[ProfileImageService]: \(error)")
                 }
             }
+            self.task = nil
         }
         self.task = task
         task.resume()

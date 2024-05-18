@@ -10,7 +10,7 @@ import Foundation
 final class ImagesListService {
     
     static let shared = ImagesListService()
-    
+        
     private (set) var photos: [Photo] = []
     
     private var lastLoadedPage: Int?
@@ -52,7 +52,7 @@ final class ImagesListService {
                     let photo = Photo(
                         id: dataOfPhoto.id,
                         size: CGSize(width: dataOfPhoto.width, height: dataOfPhoto.height),
-                        createdAt: self.getDateFromString(dateString: dataOfPhoto.createdAt),
+                        createdAt: ISO8601DateFormatter().date(from: dataOfPhoto.createdAt ?? ""),
                         welcomeDescription: dataOfPhoto.description,
                         thumbImageURL: dataOfPhoto.urls.thumb,
                         largeImageURL: dataOfPhoto.urls.full,
@@ -74,8 +74,8 @@ final class ImagesListService {
                 self.task = nil
             }
             self.task = nil
-            
         }
+        self.task = task
         task.resume()
     }
     
@@ -134,15 +134,6 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
-    }
-    
-    private func getDateFromString(dateString: String?) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        guard let dateString = dateString else {
-            return nil
-        }
-        return formatter.date(from: dateString)
     }
     
     func cleanPhotos() {

@@ -64,6 +64,12 @@ extension ProfileViewController {
             style: .default) { _ in
                 alert.dismiss(animated: true)
                 self.profileLogoutService.logout()
+                
+                guard let window = UIApplication.shared.windows.first else {
+                    assertionFailure("confirmExit Invalid Configuration")
+                    return
+                }
+                window.rootViewController = SplashViewController()
             }
         
         let noAction = UIAlertAction(

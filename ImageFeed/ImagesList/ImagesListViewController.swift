@@ -11,6 +11,7 @@ import Kingfisher
 final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
+    //private let dateFormatter = ISO8601DateFormatter()
     private let imagesListService = ImagesListService.shared
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -18,8 +19,8 @@ final class ImagesListViewController: UIViewController {
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale.init(identifier: "RU")
         return formatter
     }()
     
