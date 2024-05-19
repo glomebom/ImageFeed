@@ -10,14 +10,14 @@ import Foundation
 final class ImagesListService {
     
     static let shared = ImagesListService()
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
         
+    private let dateFormatterISO8601 = ISO8601DateFormatter()
     private (set) var photos: [Photo] = []
     
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
     private var mainUrlProfile = "https://api.unsplash.com/"
-    
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
     private init() {}
     
@@ -52,7 +52,7 @@ final class ImagesListService {
                     let photo = Photo(
                         id: dataOfPhoto.id,
                         size: CGSize(width: dataOfPhoto.width, height: dataOfPhoto.height),
-                        createdAt: ISO8601DateFormatter().date(from: dataOfPhoto.createdAt ?? ""),
+                        createdAt: self.dateFormatterISO8601.date(from: dataOfPhoto.createdAt ?? ""),
                         welcomeDescription: dataOfPhoto.description,
                         thumbImageURL: dataOfPhoto.urls.thumb,
                         largeImageURL: dataOfPhoto.urls.full,
