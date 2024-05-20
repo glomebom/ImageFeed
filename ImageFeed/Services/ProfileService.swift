@@ -51,6 +51,7 @@ final class ProfileService {
                     print("[ProfileService]: \(error)")
                 }
             }
+            self.task = nil
         }
         self.task = task
         task.resume()

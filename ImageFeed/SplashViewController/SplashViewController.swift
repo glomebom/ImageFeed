@@ -11,7 +11,7 @@ import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
-    private let oAuth2TokenStorage = OAuth2TokenStorage()
+    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let imageView = UIImageView()
@@ -26,8 +26,8 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupView()
-        if oAuth2TokenStorage.token != nil {
-            guard let token = oAuth2TokenStorage.token else { return }
+        
+        if let token = oAuth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
             goToAuth()
