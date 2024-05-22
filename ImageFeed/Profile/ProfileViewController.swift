@@ -40,7 +40,8 @@ final class ProfileViewController: UIViewController {
         
         guard let profileModel = profileService.profileModel else {
             print("Try to read: profileService.profileModel")
-            return }
+            return
+        }
         setupView()
         updateView(data: profileModel)
     }
