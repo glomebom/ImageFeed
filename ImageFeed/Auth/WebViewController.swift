@@ -46,14 +46,6 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        //        estimatedProgressbservation = webView.observe(
-        //            \.estimatedProgress,
-        //             options: [],
-        //             changeHandler: { [weak self] _, _ in
-        //                 guard let self = self else { return }
-        //                 //self.updateProgress()
-        //             })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,11 +65,6 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
         }
     }
     
-    //    private func updateProgress() {
-    //        progressView.progress = Float(webView.estimatedProgress)
-    //        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-    //    }
-    
     func setProgressValue(_ newValue: Float) {
         progressView.progress = newValue
     }
@@ -90,30 +77,6 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
         webView.load(request)
     }
 }
-
-//extension WebViewController {
-//    private func loadAuthView() {
-//        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-//            print("Ошибка unsplashAuthorizeURLString")
-//            return
-//        }
-//
-//        urlComponents.queryItems = [
-//            URLQueryItem(name: "client_id", value: Constants.accessKey),
-//            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-//            URLQueryItem(name: "response_type", value: "code"),
-//            URLQueryItem(name: "scope", value: Constants.accessScope)
-//        ]
-//
-//        guard let url = urlComponents.url else {
-//            print("Ошибка формирования url")
-//            return
-//        }
-//
-//        let request = URLRequest(url: url)
-//        webView.load(request)
-//    }
-//}
 
 extension WebViewController: WKNavigationDelegate {
     func webView(
