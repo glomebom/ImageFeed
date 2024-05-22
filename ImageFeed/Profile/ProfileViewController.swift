@@ -10,7 +10,13 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateView(data: Profile)
+    func setAvatar(url: URL)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     private let imageView = UIImageView()
     private let exitButton = UIButton()
     private let nameLabel = UILabel()
@@ -24,8 +30,14 @@ final class ProfileViewController: UIViewController {
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
+    var presenter: ProfilePresenterProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        presenter = ProfilePresenter(view: self)
+        
+        setupView()
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -34,16 +46,10 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                self.updateAvatar()
+                self.presenter?.updateAvatar()
             }
-        updateAvatar()
-        
-        guard let profileModel = profileService.profileModel else {
-            print("Try to read: profileService.profileModel")
-            return
-        }
-        setupView()
-        updateView(data: profileModel)
+        presenter?.updateAvatar()
+        presenter?.updateProfileDetails()
     }
     
     @objc
@@ -93,10 +99,7 @@ extension ProfileViewController {
         descriptionLabel.text = data.bio
     }
     
-    func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.profileImageURL,
-              let url = URL(string: profileImageURL)
-        else { return }
+    func setAvatar(url: URL) {
         imageView.kf.setImage(with: url)
     }
 }
