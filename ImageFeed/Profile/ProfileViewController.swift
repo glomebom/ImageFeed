@@ -33,7 +33,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         super.viewDidLoad()
         
         presenter = ProfilePresenter(view: self)
-                
+        
         setupView()
         
         profileImageServiceObserver = NotificationCenter.default
@@ -134,6 +134,7 @@ extension ProfileViewController {
         exitButton.tintColor = UIColor(named: "YPRed")
         exitButton.setImage(exitImage, for: .normal)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.accessibilityIdentifier = "Logout button"
         view.addSubview(exitButton)
         
         NSLayoutConstraint.activate([

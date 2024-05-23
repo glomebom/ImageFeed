@@ -43,5 +43,4 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     func logout() {
         profileLogoutService.logout()
     }
-    
 }

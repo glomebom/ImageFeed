@@ -24,7 +24,5 @@ final class ProfileViewControllerMock: ProfileViewControllerProtocol {
         descriptionLabel.text = data.bio
     }
     
-    func setAvatar(url: URL) {
-        
-    }
+    func setAvatar(url: URL) {}
 }
