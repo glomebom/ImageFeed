@@ -23,10 +23,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     private let nickNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     
-    private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let imagesListService = ImagesListService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -36,7 +33,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         super.viewDidLoad()
         
         presenter = ProfilePresenter(view: self)
-        
+                
         setupView()
         
         profileImageServiceObserver = NotificationCenter.default
@@ -70,7 +67,7 @@ extension ProfileViewController {
             title: "Да",
             style: .default) { _ in
                 alert.dismiss(animated: true)
-                self.profileLogoutService.logout()
+                self.presenter?.logout()
                 
                 guard let window = UIApplication.shared.windows.first else {
                     assertionFailure("confirmExit Invalid Configuration")

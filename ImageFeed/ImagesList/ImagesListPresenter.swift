@@ -23,5 +23,4 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     func fetchPhotosNextPage() {
         imagesListService.fetchPhotosNextPage()
     }
-    
 }

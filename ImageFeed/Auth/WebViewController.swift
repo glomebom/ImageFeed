@@ -37,7 +37,6 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
         
         webView.navigationDelegate = self
         presenter?.viewDidLoad()
-        //updateProgress()
     }
     
     @IBAction private func didTapBackButton(_ sender: Any?) {
