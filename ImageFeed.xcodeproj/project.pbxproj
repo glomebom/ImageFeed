@@ -22,6 +22,11 @@
 		F76C7D432BFF2EF000C64820 /* ProfileViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D422BFF2EF000C64820 /* ProfileViewControllerMock.swift */; };
 		F76C7D452BFF386C00C64820 /* ProfilePresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D442BFF386C00C64820 /* ProfilePresenterSpy.swift */; };
 		F76C7D472BFF40F300C64820 /* ProfileViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D462BFF40F300C64820 /* ProfileViewControllerSpy.swift */; };
+		F76C7D492BFF463B00C64820 /* ImagesListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D482BFF463B00C64820 /* ImagesListViewTests.swift */; };
+		F76C7D4B2BFF4E6D00C64820 /* ImagesListPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D4A2BFF4E6D00C64820 /* ImagesListPresenterSpy.swift */; };
+		F76C7D4D2BFF4E8400C64820 /* ImagesListViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D4C2BFF4E8400C64820 /* ImagesListViewControllerSpy.swift */; };
+		F76C7D4F2BFF4E9300C64820 /* ImagesListPresenterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D4E2BFF4E9300C64820 /* ImagesListPresenterMock.swift */; };
+		F76C7D512BFF4EA500C64820 /* ImagesListServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7D502BFF4EA500C64820 /* ImagesListServiceSpy.swift */; };
 		F76C9D712BC4649C00ADF650 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C9D702BC4649C00ADF650 /* URLSession+data.swift */; };
 		F76C9D742BC469E200ADF650 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C9D732BC469E200ADF650 /* OAuthTokenResponseBody.swift */; };
 		F76E3F4C2BEB8C4E0038525D /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = F76E3F4B2BEB8C4E0038525D /* SwiftKeychainWrapper */; };
@@ -79,6 +84,11 @@
 		F76C7D422BFF2EF000C64820 /* ProfileViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerMock.swift; sourceTree = "<group>"; };
 		F76C7D442BFF386C00C64820 /* ProfilePresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenterSpy.swift; sourceTree = "<group>"; };
 		F76C7D462BFF40F300C64820 /* ProfileViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerSpy.swift; sourceTree = "<group>"; };
+		F76C7D482BFF463B00C64820 /* ImagesListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewTests.swift; sourceTree = "<group>"; };
+		F76C7D4A2BFF4E6D00C64820 /* ImagesListPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenterSpy.swift; sourceTree = "<group>"; };
+		F76C7D4C2BFF4E8400C64820 /* ImagesListViewControllerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewControllerSpy.swift; sourceTree = "<group>"; };
+		F76C7D4E2BFF4E9300C64820 /* ImagesListPresenterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenterMock.swift; sourceTree = "<group>"; };
+		F76C7D502BFF4EA500C64820 /* ImagesListServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServiceSpy.swift; sourceTree = "<group>"; };
 		F76C9D702BC4649C00ADF650 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		F76C9D732BC469E200ADF650 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		F76E3F4E2BEB96560038525D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -180,6 +190,11 @@
 		F76C7D3F2BFF1CCF00C64820 /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
+				F76C7D482BFF463B00C64820 /* ImagesListViewTests.swift */,
+				F76C7D4A2BFF4E6D00C64820 /* ImagesListPresenterSpy.swift */,
+				F76C7D4C2BFF4E8400C64820 /* ImagesListViewControllerSpy.swift */,
+				F76C7D4E2BFF4E9300C64820 /* ImagesListPresenterMock.swift */,
+				F76C7D502BFF4EA500C64820 /* ImagesListServiceSpy.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -405,10 +420,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F76C7D412BFF209600C64820 /* ProfileViewTests.swift in Sources */,
+				F76C7D4D2BFF4E8400C64820 /* ImagesListViewControllerSpy.swift in Sources */,
 				F773C2EE2BFD081400A8FFEF /* WebViewTests.swift in Sources */,
 				F790E9C62BFD2EB100ACAB7E /* WebViewViewControllerSpy.swift in Sources */,
 				F773C2F72BFD0AF000A8FFEF /* WebViewPresenterSpy.swift in Sources */,
+				F76C7D492BFF463B00C64820 /* ImagesListViewTests.swift in Sources */,
+				F76C7D4B2BFF4E6D00C64820 /* ImagesListPresenterSpy.swift in Sources */,
 				F76C7D472BFF40F300C64820 /* ProfileViewControllerSpy.swift in Sources */,
+				F76C7D512BFF4EA500C64820 /* ImagesListServiceSpy.swift in Sources */,
+				F76C7D4F2BFF4E9300C64820 /* ImagesListPresenterMock.swift in Sources */,
 				F76C7D432BFF2EF000C64820 /* ProfileViewControllerMock.swift in Sources */,
 				F76C7D452BFF386C00C64820 /* ProfilePresenterSpy.swift in Sources */,
 			);
