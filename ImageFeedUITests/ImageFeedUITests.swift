@@ -83,7 +83,7 @@ final class ImageFeedUITests: XCTestCase {
     
     func testProfile() throws {
         sleep(3)
-        app.tabBars.buttons.element(boundBy: 1)
+        app.tabBars.buttons.element(boundBy: 1).tap()
         
         let avatarImage = app.images["Avatar image"]
         XCTAssertTrue(avatarImage.waitForExistence(timeout: 5))
@@ -93,6 +93,6 @@ final class ImageFeedUITests: XCTestCase {
         
         app.buttons["Logout button"].tap()
         
-        app.alerts["Bye bye!"].scrollViews.otherElements.buttons["Да"].tap()
+        app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
     }
 }
