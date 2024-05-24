@@ -113,6 +113,7 @@ extension ProfileViewController {
     
     private func profileImageConfig() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.accessibilityIdentifier = "Avatar image"
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([

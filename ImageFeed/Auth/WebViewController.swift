@@ -23,8 +23,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewController: UIViewController & WebViewControllerProtocol {
     
-    @IBOutlet var webView: WKWebView!
-    @IBOutlet var progressView: UIProgressView!
+    @IBOutlet private var webView: WKWebView!
+    @IBOutlet private var progressView: UIProgressView!
     
     private var estimatedProgressbservation: NSKeyValueObservation?
     
@@ -35,6 +35,7 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        webView.accessibilityIdentifier = "UnsplashWebView"
         webView.navigationDelegate = self
         presenter?.viewDidLoad()
     }
@@ -74,7 +75,6 @@ final class WebViewController: UIViewController & WebViewControllerProtocol {
     
     func load(request: URLRequest) {
         webView.load(request)
-        webView.accessibilityIdentifier = "UnsplashWebView"
     }
 }
 

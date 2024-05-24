@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Kingfisher
 
 public protocol ProfilePresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
