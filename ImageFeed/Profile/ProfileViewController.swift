@@ -10,22 +10,31 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateView(data: Profile)
+    func setAvatar(url: URL)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     private let imageView = UIImageView()
     private let exitButton = UIButton()
     private let nameLabel = UILabel()
     private let nickNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     
-    private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let imagesListService = ImagesListService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
+    var presenter: ProfilePresenterProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        presenter = ProfilePresenter(view: self)
+        
+        setupView()
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -34,15 +43,10 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                self.updateAvatar()
+                self.presenter?.updateAvatar()
             }
-        updateAvatar()
-        
-        guard let profileModel = profileService.profileModel else {
-            print("Try to read: profileService.profileModel")
-            return }
-        setupView()
-        updateView(data: profileModel)
+        presenter?.updateAvatar()
+        presenter?.updateProfileDetails()
     }
     
     @objc
@@ -63,7 +67,7 @@ extension ProfileViewController {
             title: "Да",
             style: .default) { _ in
                 alert.dismiss(animated: true)
-                self.profileLogoutService.logout()
+                self.presenter?.logout()
                 
                 guard let window = UIApplication.shared.windows.first else {
                     assertionFailure("confirmExit Invalid Configuration")
@@ -92,10 +96,7 @@ extension ProfileViewController {
         descriptionLabel.text = data.bio
     }
     
-    func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.profileImageURL,
-              let url = URL(string: profileImageURL)
-        else { return }
+    func setAvatar(url: URL) {
         imageView.kf.setImage(with: url)
     }
 }
@@ -112,6 +113,7 @@ extension ProfileViewController {
     
     private func profileImageConfig() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.accessibilityIdentifier = "Avatar image"
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -133,6 +135,7 @@ extension ProfileViewController {
         exitButton.tintColor = UIColor(named: "YPRed")
         exitButton.setImage(exitImage, for: .normal)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.accessibilityIdentifier = "Logout button"
         view.addSubview(exitButton)
         
         NSLayoutConstraint.activate([
